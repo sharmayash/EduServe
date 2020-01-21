@@ -1,5 +1,14 @@
 const graphql = require("graphql");
 
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLSchema,
+  GraphQLID,
+  GraphQLList,
+  GraphQLNonNull
+} = graphql;
+
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
   fields: {}
