@@ -1,0 +1,18 @@
+{
+  "name": "eduserve",
+  "version": "1.0.0",
+  "description": "college project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Raghav&Yash",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "graphql": "^14.5.8",
+    "mongoose": "^5.8.9"
+  }
+}
