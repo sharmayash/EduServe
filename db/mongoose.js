@@ -10,13 +10,9 @@ var graphqlDBConn = mongoose.connect(
 		useUnifiedTopology: true,
 		useFindAndModify: false
 	}
-);
-
-var onConn = mongoose.connection.once("open", () => {
-	console.log("connected to database");
-});
+).then(() => console.log('DB connected'))
+.catch(e => console.log('DB error ' + e))
 
 module.exports = {
-	graphqlDBConn,
-	onConn
+	graphqlDBConn
 };
