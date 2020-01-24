@@ -1,14 +1,12 @@
 const cors = require("cors")
+const fs = require('fs')
+const path = require('path')
 const express = require("express")
-const { graphqlDBConn } = require("./db/mongoose")
-// schema = require("./graphql/schema/schema")
-const graphqlHttp = require("express-graphql")
 const compression = require("compression")
-const importSchema = require('graphql-import').importSchema
-const makeExecutableSchema = require('graphql-tools').makeExecutableSchema
 const bodyParser = require("body-parser")
+const { ApolloServer } = require('apollo-server-express')
 
-const graphQlResolver = require('./graphql/resolvers/index')
+const resolvers = require('./graphql/resolvers/index')
 
 const app = express();
 
@@ -20,22 +18,18 @@ const port = process.env.PORT || 4000;
 app.use(bodyParser.json({ limit: "1mb" }));
 app.use(bodyParser.urlencoded({ extended: false, limit: "1mb" }));
 
-const start = async () => {
-  try {
-    const typeDefs = await importSchema('./graphql/schema/schema.graphql');
-    const schema = makeExecutableSchema({ typeDefs, graphQlResolver })
-    app.use(
-      "/graphql",
-      graphqlHttp({
-        schema,
-        graphiql: true
-      })
-    );
-  } catch (error) {
-    console.log('something')
-  }
-}
+let schemas = fs.readdirSync(path.join(__dirname, 'graphql/schemas'))
+let typeDefs = [];
+schemas.forEach(schema => {
+  typeDefs.push(fs.readFileSync(path.join(__dirname, `graphql/schemas/${schema}`), 'utf8'))
+})
 
-start();
+const graphServer = new ApolloServer({
+  typeDefs,
+  resolvers
+})
+
+graphServer.applyMiddleware({ app });
+
 d = new Date();
 app.listen(port, () => console.log(`Server started on ${port} --time<${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}>`));
