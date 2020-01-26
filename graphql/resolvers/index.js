@@ -6,28 +6,28 @@ const resolvers = {
     hello: (parent, args, req) => "Hello World!!"
   },
   Mutation: {
-    createUser: (parent, { name, email, age, password }, req) => {
-      let salt = bcrypt.genSaltSync(10);
-      let hash = bcrypt.hashSync(password, salt)
+    createUser: async (parent, { name, email, age, password }, req) => {
+      try {
+        let salt = bcrypt.genSaltSync(10);
+        let hash = bcrypt.hashSync(password, salt)
 
-      let user = new User({
-        email: email,
-        password: hash,
-        age,
-        name
-      })
+        let user = new User({
+          email,
+          password: hash,
+          age,
+          name
+        })
+        const result = await user.save()
+        // the user object is in _doc
+        return {
+          ...result._doc,
+          password: null
+        };
 
-      return user.save()
-        .then(doc => {
-          return {
-            ...doc,
-            password: null
-          }
-        })
-        .catch(error => {
-          console.log(error)
-          throw error
-        })
+      } catch (error) {
+        console.log(error)
+        throw error
+      }
 
     }
   }

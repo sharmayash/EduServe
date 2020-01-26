@@ -8,11 +8,11 @@ type Mutation {
 }
 
 type User {
-	_id: ID,
-	name: String,
-	email: String,
+	_id: ID!,
+	name: String!,
+	email: String!,
 	password: String,
-	age: Int,
-  createdAt: String,
-  updatedAt: String,
+	age: Int!,
+  createdAt: String!,
+  updatedAt: String!,
 }
