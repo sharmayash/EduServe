@@ -4,7 +4,7 @@
 ### `nodemon app.js`
 
 Starts the backend development server.
-Open [http://localhost:4000/graphql] **Graphql Playground**
+Open [http://localhost:4000/graphql](url) **Graphql Playground**
 
 ### `cd frontend`
 ### `npm i`
