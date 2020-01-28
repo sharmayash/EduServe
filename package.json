@@ -18,7 +18,8 @@
     "express": "^4.17.1",
     "graphql": "^14.5.8",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.8.9"
+    "mongoose": "^5.8.9",
+    "react-final-form": "^6.3.5"
   },
   "devDependencies": {
     "@playlyfe/gql": "^2.6.2",
