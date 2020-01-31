@@ -1,11 +1,22 @@
 type Query {
 	users: [User!]!
-	profile: [Profile!]!
+	profiles: [Profile!]!
 	hello: String!
 }
 
 type Mutation {
 	createUser(name: String!, email: String!, password: String!): AuthData!
+	createProfile(
+		user: ID!
+		username: String!
+		age: Int!
+		mobileNo: Int!
+		city: String!
+		address: String!
+		pincode: Int!
+		bio: String!
+		education: [ProfileEducation!]!
+	): Profile!
 }
 
 type User {
@@ -31,12 +42,11 @@ type Profile {
 	mobileNo: Int!
 	city: String!
 	address: String!
-	pincode: String!
+	pincode: Int!
 	bio: String!
-	education: [ProfileEducation!]!
 }
 
-type ProfileEducation {
+input ProfileEducation {
 	institute: String!
 	degree: String!
 	fieldOfStudy: String!
@@ -54,7 +64,7 @@ type CollegeProfile {
 	contactNo: Int!
 	city: String!
 	address: String!
-	pincode: String!
+	pincode: Int!
 	bio: String!
 	coursesOffered: [Courses!]!
 }

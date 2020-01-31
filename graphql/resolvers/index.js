@@ -1,6 +1,7 @@
-const User = require("../../models/User")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const User = require("../../models/User")
+const Profile = require("../../models/Profile")
 
 var generateAuthToken = user => {
 	let token = jwt.sign(
@@ -25,6 +26,9 @@ const resolvers = {
 		hello: (parent, args, req) => "Hello World!!",
 		users: (parent, args, req) => {
 			return User.find({})
+		},
+		profiles: (parent, args, req) => {
+			return Profile.find({})
 		}
 	},
 	Mutation: {
@@ -46,14 +50,30 @@ const resolvers = {
 				console.log(error)
 				throw error
 			}
+		},
+		createProfile: async (
+			parent,
+			{ user, username, age, mobileNo, city, address, pincode, bio, education },
+			req
+		) => {
+			try {
+				let newProfile = new Profile({
+					user,
+					username,
+					age,
+					mobileNo,
+					city,
+					address,
+					pincode,
+					bio,
+					education
+				})
+				const result = await newProfile.save()
+				return result
+			} catch (error) {
+				throw error
+			}
 		}
-		// createProfile: async (parent, args, req) => {
-		// 	try {
-
-		// 	} catch (error) {
-
-		// 	}
-		// }
 	}
 }
 
