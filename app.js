@@ -2,10 +2,10 @@ const fs = require("fs")
 const path = require("path")
 const cors = require("cors")
 const express = require("express")
-const { graphqlDBConn, onConn } = require("./db/mongoose")
 const bodyParser = require("body-parser")
 const compression = require("compression")
 const { ApolloServer } = require("apollo-server-express")
+require('./db/mongoose')    // DB connection initialize
 
 const resolvers = require("./graphql/resolvers/index")
 
@@ -13,9 +13,6 @@ const app = express()
 
 app.use(cors())
 app.use(compression())
-
-graphqlDBConn
-onConn
 
 const port = process.env.PORT || 4000
 
