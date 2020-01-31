@@ -22,10 +22,13 @@ var generateAuthToken = user => {
 
 const resolvers = {
 	Query: {
-		hello: (parent, args, req) => "Hello World!!"
+		hello: (parent, args, req) => "Hello World!!",
+		users: (parent, args, req) => {
+			return User.find({})
+		}
 	},
 	Mutation: {
-		createUser: async (parent, { name, email, age, password }, req) => {
+		createUser: async (parent, { name, email, password }, req) => {
 			try {
 				let salt = bcrypt.genSaltSync(10)
 				let hash = bcrypt.hashSync(password, salt)
@@ -33,7 +36,6 @@ const resolvers = {
 				let user = new User({
 					email,
 					password: hash,
-					age,
 					name
 				})
 				const result = await user.save()
@@ -45,6 +47,13 @@ const resolvers = {
 				throw error
 			}
 		}
+		// createProfile: async (parent, args, req) => {
+		// 	try {
+
+		// 	} catch (error) {
+
+		// 	}
+		// }
 	}
 }
 

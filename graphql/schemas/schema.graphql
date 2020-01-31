@@ -1,24 +1,72 @@
 type Query {
 	users: [User!]!
-	hello: String
+	profile: [Profile!]!
+	hello: String!
 }
 
 type Mutation {
-	createUser(name: String!, email: String!, password: String!, age: Int!): AuthData!
+	createUser(name: String!, email: String!, password: String!): AuthData!
 }
 
 type User {
-	_id: ID!,
-	name: String!,
-	email: String!,
-	password: String,
-	age: Int!,
-  createdAt: String!,
-  updatedAt: String!,
+	_id: ID!
+	name: String!
+	email: String!
+	password: String
+	createdAt: String!
+	updatedAt: String!
 }
 
 type AuthData {
-  userId: String!
-  token: ID!
-  tokenExpiration: Int!
+	userId: String!
+	token: ID!
+	tokenExpiration: Int!
+}
+
+type Profile {
+	_id: ID!
+	user: ID!
+	username: String!
+	age: Int!
+	mobileNo: Int!
+	city: String!
+	address: String!
+	pincode: String!
+	bio: String!
+	education: [ProfileEducation!]!
+}
+
+type ProfileEducation {
+	institute: String!
+	degree: String!
+	fieldOfStudy: String!
+	from: String!
+	to: String!
+	current: Boolean!
+	description: String!
+}
+
+type CollegeProfile {
+	_id: ID!
+	user: ID!
+	collegename: String!
+	establishedYear: Int!
+	contactNo: Int!
+	city: String!
+	address: String!
+	pincode: String!
+	bio: String!
+	coursesOffered: [Courses!]!
+}
+
+type Courses {
+	courseName: String!
+	totalSeats: Int!
+	streams: [Streams!]!
+}
+
+type Streams {
+	streamName: String!
+	fees: Int!
+	description: Int!
 }

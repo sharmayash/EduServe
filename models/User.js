@@ -1,7 +1,5 @@
 const mongoose = require("mongoose")
 
-const { graphqlDBConn } = require("../db/mongoose")
-
 const UserSchema = new mongoose.Schema(
 	{
 		name: {
@@ -19,11 +17,11 @@ const UserSchema = new mongoose.Schema(
 			type: String,
 			trim: true,
 			required: true
-		},
+		}
 	},
 	{
 		timestamps: true
 	}
 )
 
-module.exports = graphqlDBConn.model("User", UserSchema)
+module.exports = mongoose.model("User", UserSchema)
