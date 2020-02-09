@@ -1,11 +1,8 @@
 type Query {
-	users: [User!]!
 	profiles: [Profile!]!
-	hello: String!
 }
 
 type Mutation {
-	createUser(name: String!, email: String!, password: String!): AuthData!
 	createProfile(
 		user: ID!
 		username: String!
@@ -15,21 +12,6 @@ type Mutation {
 		bio: String!
 		education: [ProfileEducation!]!
 	): Profile!
-}
-
-type User {
-	_id: ID!
-	name: String!
-	email: String!
-	password: String
-	createdAt: String!
-	updatedAt: String!
-}
-
-type AuthData {
-	userId: String!
-	token: ID!
-	tokenExpiration: Int!
 }
 
 type Profile {
