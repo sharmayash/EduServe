@@ -6,6 +6,7 @@ const bodyParser = require("body-parser")
 const compression = require("compression")
 const { ApolloServer } = require("apollo-server-express")
 const rateLimit = require('express-rate-limit')
+const helmet = require('helmet')
 
 require('./db/mongoose')    // DB connection initialize
 
@@ -13,6 +14,15 @@ const resolvers = require("./graphql/resolvers/index")
 
 const app = express()
 
+// SECURE HEADERS
+app.use(helmet({
+  frameguard: true, //  clickjacking  (embedding things on site)
+  xssFilter: true,  // cross site scripting
+  noSniff: true,  // no data pack sniffing
+  hidePoweredBy: true // to hide our tech stack
+}))
+
+// TODO: have to use mongo store for this
 const loginLimiter = rateLimit({
   max: 5,   // 5 tries
   windowMs: 30 * 60 * 1000,   // 30 min
