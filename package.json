@@ -4,7 +4,8 @@
   "description": "college project",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js -e js,graphql"
   },
   "author": "Raghav&Yash",
   "license": "ISC",
