@@ -19,13 +19,8 @@ const ProfileSchema = new mongoose.Schema({
 		type: Number,
 		required: true
 	},
-	city: {
+	state: {
 		type: String,
-		trim: true,
-		required: true
-	},
-	pincode: {
-		type: Number,
 		trim: true,
 		required: true
 	},

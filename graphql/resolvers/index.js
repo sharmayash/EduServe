@@ -52,7 +52,7 @@ const resolvers = {
 		},
 		createProfile: async (
 			parent,
-			{ user, username, age, mobileNo, city, pincode, bio, education },
+			{ user, username, age, mobileNo, state, bio, education },
 			req
 		) => {
 			try {
@@ -61,8 +61,7 @@ const resolvers = {
 					username,
 					age,
 					mobileNo,
-					city,
-					pincode,
+					state,
 					bio,
 					education
 				})

@@ -11,8 +11,7 @@ type Mutation {
 		username: String!
 		age: Int!
 		mobileNo: Int!
-		city: String!
-		pincode: Int!
+		state: String!
 		bio: String!
 		education: [ProfileEducation!]!
 	): Profile!
@@ -39,8 +38,7 @@ type Profile {
 	username: String!
 	age: Int!
 	mobileNo: Int!
-	city: String!
-	pincode: Int!
+	state: String!
 	bio: String!
 }
 
@@ -60,8 +58,7 @@ type CollegeProfile {
 	collegename: String!
 	establishedYear: Int!
 	contactNo: Int!
-	city: String!
-	pincode: Int!
+	state: String!
 	bio: String!
 	coursesOffered: [Courses!]!
 }
