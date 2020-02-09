@@ -24,11 +24,6 @@ const ProfileSchema = new mongoose.Schema({
 		trim: true,
 		required: true
 	},
-	address: {
-		type: String,
-		trim: true,
-		required: true
-	},
 	pincode: {
 		type: Number,
 		trim: true,

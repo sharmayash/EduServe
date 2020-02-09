@@ -12,7 +12,6 @@ type Mutation {
 		age: Int!
 		mobileNo: Int!
 		city: String!
-		address: String!
 		pincode: Int!
 		bio: String!
 		education: [ProfileEducation!]!
@@ -41,7 +40,6 @@ type Profile {
 	age: Int!
 	mobileNo: Int!
 	city: String!
-	address: String!
 	pincode: Int!
 	bio: String!
 }
@@ -63,7 +61,6 @@ type CollegeProfile {
 	establishedYear: Int!
 	contactNo: Int!
 	city: String!
-	address: String!
 	pincode: Int!
 	bio: String!
 	coursesOffered: [Courses!]!

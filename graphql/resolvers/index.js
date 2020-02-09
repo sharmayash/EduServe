@@ -23,7 +23,6 @@ var generateAuthToken = user => {
 
 const resolvers = {
 	Query: {
-		hello: (parent, args, req) => "Hello World!!",
 		users: (parent, args, req) => {
 			return User.find({})
 		},
@@ -53,7 +52,7 @@ const resolvers = {
 		},
 		createProfile: async (
 			parent,
-			{ user, username, age, mobileNo, city, address, pincode, bio, education },
+			{ user, username, age, mobileNo, city, pincode, bio, education },
 			req
 		) => {
 			try {
@@ -63,7 +62,6 @@ const resolvers = {
 					age,
 					mobileNo,
 					city,
-					address,
 					pincode,
 					bio,
 					education
