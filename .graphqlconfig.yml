@@ -1,2 +1,2 @@
-schema: ./graphql/schema/schema.graphql
+schema: ./graphql/schema/*.graphql
 include: ./graphql/**/*.graphql
