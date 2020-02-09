@@ -13,11 +13,20 @@ const resolvers = require("./graphql/resolvers/index")
 
 const app = express()
 
+const loginLimiter = rateLimit({
+  max: 5,   // 5 tries
+  windowMs: 30 * 60 * 1000,   // 30 min
+  message:
+    "Too many login tries, please try again after 30 minutes"
+})
+
+app.use('/login', loginLimiter)
+
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // limit each IP to 100 requests per windowMs
   message:
-    "Too many accounts created from this IP, please try again after 15 minutes"
+    "Too many requests created from this IP, please try again after 15 minutes"
 });
 
 app.use(limiter)  // apply to all requests
