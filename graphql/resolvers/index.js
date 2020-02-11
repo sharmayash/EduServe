@@ -1,7 +1,8 @@
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const User = require("../../models/User")
-const Profile = require("../../models/Profile")
+const Student = require("../../models/Student")
+const College = require("../../models/College")
 
 var generateAuthToken = user => {
 	let token = jwt.sign(
@@ -26,8 +27,11 @@ const resolvers = {
 		users: (parent, args, req) => {
 			return User.find({})
 		},
-		profiles: (parent, args, req) => {
-			return Profile.find({})
+		students: (parent, args, req) => {
+			return Student.find({})
+		},
+		colleges: (parent, args, req) => {
+			return College.find({})
 		}
 	},
 	Mutation: {
@@ -50,13 +54,13 @@ const resolvers = {
 				throw error
 			}
 		},
-		createProfile: async (
+		createStudentProfile: async (
 			parent,
 			{ user, username, age, mobileNo, state, bio, education },
 			req
 		) => {
 			try {
-				let newProfile = new Profile({
+				let newProfile = new Student({
 					user,
 					username,
 					age,
@@ -66,6 +70,35 @@ const resolvers = {
 					education
 				})
 				const result = await newProfile.save()
+				return result
+			} catch (error) {
+				throw error
+			}
+		},
+		newCollege: async (
+			parent,
+			{
+				user,
+				collegename,
+				establishedYear,
+				contactNo,
+				state,
+				bio,
+				coursesOffered
+			},
+			req
+		) => {
+			try {
+				let newCollege = new College({
+					user,
+					collegename,
+					establishedYear,
+					contactNo,
+					state,
+					bio,
+					coursesOffered
+				})
+				const result = await newCollege.save()
 				return result
 			} catch (error) {
 				throw error

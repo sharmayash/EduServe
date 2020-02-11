@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const ProfileSchema = new mongoose.Schema({
+const CollegeSchema = new mongoose.Schema({
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "users"
@@ -40,7 +40,7 @@ const ProfileSchema = new mongoose.Schema({
 			},
 			streams: [
 				{
-					stremName: {
+					streamName: {
 						type: String,
 						required: true
 					},
@@ -58,4 +58,4 @@ const ProfileSchema = new mongoose.Schema({
 	]
 })
 
-module.exports = mongoose.model("profile", ProfileSchema)
+module.exports = mongoose.model("college", CollegeSchema)

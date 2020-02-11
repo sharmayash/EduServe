@@ -1,20 +1,31 @@
 type Query {
-	profiles: [Profile!]!
+	students: [Student!]!
+	colleges: [College!]!
 }
 
 type Mutation {
-	createProfile(
+	createStudentProfile(
 		user: ID!
 		username: String!
 		age: Int!
 		mobileNo: Int!
 		state: String!
 		bio: String!
-		education: [ProfileEducation!]!
-	): Profile!
+		education: [StudentEdu!]!
+	): Student!
+
+	newCollege(
+		user: ID!
+		collegename: String!
+		establishedYear: Int!
+		contactNo: Int!
+		state: String!
+		bio: String!
+		coursesOffered: [newCourse!]!
+	): College!
 }
 
-type Profile {
+type Student {
 	_id: ID!
 	user: ID!
 	username: String!
@@ -22,9 +33,10 @@ type Profile {
 	mobileNo: Int!
 	state: String!
 	bio: String!
+	education: [StudentEduType!]!
 }
 
-input ProfileEducation {
+type StudentEduType {
 	institute: String!
 	degree: String!
 	fieldOfStudy: String!
@@ -34,8 +46,17 @@ input ProfileEducation {
 	description: String!
 }
 
-type CollegeProfile {
-	_id: ID!
+input StudentEdu {
+	institute: String!
+	degree: String!
+	fieldOfStudy: String!
+	from: String!
+	to: String!
+	current: Boolean!
+	description: String!
+}
+
+type College {
 	user: ID!
 	collegename: String!
 	establishedYear: Int!
@@ -51,8 +72,20 @@ type Courses {
 	streams: [Streams!]!
 }
 
+input newCourse {
+	courseName: String!
+	totalSeats: Int!
+	streams: [newStream!]!
+}
+
 type Streams {
 	streamName: String!
 	fees: Int!
 	description: Int!
+}
+
+input newStream {
+	streamName: String!
+	fees: Int!
+	description: String!
 }
