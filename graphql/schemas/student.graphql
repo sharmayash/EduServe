@@ -1,0 +1,62 @@
+# -----------------------------------------------
+# QUERY
+# -----------------------------------------------
+
+extend type Query {
+	students: [Student!]!
+}
+
+# -----------------------------------------------
+# MUTATION
+# -----------------------------------------------
+
+extend type Mutation {
+	createStudentProfile(
+		user: ID!
+		username: String!
+		age: Int!
+		mobileNo: Int!
+		state: String!
+		bio: String!
+		education: [StudentEdu!]!
+	): Student!
+}
+
+# -----------------------------------------------
+# TYPES
+# -----------------------------------------------
+
+type Student {
+	_id: ID!
+	user: ID!
+	username: String!
+	age: Int!
+	mobileNo: Int!
+	state: String!
+	bio: String!
+	education: [StudentEduType!]!
+}
+
+type StudentEduType {
+	institute: String!
+	degree: String!
+	fieldOfStudy: String!
+	from: String!
+	to: String!
+	current: Boolean!
+	description: String!
+}
+
+# -----------------------------------------------
+# INPUTS
+# -----------------------------------------------
+
+input StudentEdu {
+	institute: String!
+	degree: String!
+	fieldOfStudy: String!
+	from: String!
+	to: String!
+	current: Boolean!
+	description: String!
+}

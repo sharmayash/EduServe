@@ -1,19 +1,8 @@
 type Query {
-	students: [Student!]!
 	colleges: [College!]!
 }
 
 type Mutation {
-	createStudentProfile(
-		user: ID!
-		username: String!
-		age: Int!
-		mobileNo: Int!
-		state: String!
-		bio: String!
-		education: [StudentEdu!]!
-	): Student!
-
 	newCollege(
 		user: ID!
 		collegename: String!
@@ -23,37 +12,6 @@ type Mutation {
 		bio: String!
 		coursesOffered: [newCourse!]!
 	): College!
-}
-
-type Student {
-	_id: ID!
-	user: ID!
-	username: String!
-	age: Int!
-	mobileNo: Int!
-	state: String!
-	bio: String!
-	education: [StudentEduType!]!
-}
-
-type StudentEduType {
-	institute: String!
-	degree: String!
-	fieldOfStudy: String!
-	from: String!
-	to: String!
-	current: Boolean!
-	description: String!
-}
-
-input StudentEdu {
-	institute: String!
-	degree: String!
-	fieldOfStudy: String!
-	from: String!
-	to: String!
-	current: Boolean!
-	description: String!
 }
 
 type College {
