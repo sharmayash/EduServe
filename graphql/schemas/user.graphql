@@ -4,6 +4,7 @@
 
 extend type Query {
 	users: [User!]!
+  loginUser(email: String!, password: String!): AuthData!
 }
 
 # -----------------------------------------------
