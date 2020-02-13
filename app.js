@@ -5,8 +5,9 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const compression = require("compression")
 const { ApolloServer } = require("apollo-server-express")
-const rateLimit = require('express-rate-limit')
+// const rateLimit = require('express-rate-limit')
 const helmet = require('helmet')
+require('dotenv').config()    // For .env files
 
 require('./db/mongoose')    // DB connection initialize
 

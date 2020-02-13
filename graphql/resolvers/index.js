@@ -22,6 +22,8 @@ var generateAuthToken = user => {
   }
 }
 
+const { OAuth2Client } = require('google-auth-library');
+
 const resolvers = {
   Query: {
     users: (parent, args, req) => {
@@ -48,6 +50,40 @@ const resolvers = {
         console.log(error);
         return error
       }
+    },
+    googleSignIn: async (_, { id_token }, req) => {
+      const client = new OAuth2Client(process.env.CLIENT_ID);
+      async function verify() {
+        const ticket = await client.verifyIdToken({
+          idToken: id_token,
+          audience: process.env.CLIENT_ID,
+        });
+        const payload = ticket.getPayload();  // this returns a Promise
+        const userid = payload['sub'];        // unique for each user
+      return payload                          // look at return type of verify
+      }
+      return verify()
+        .then(async ({ name, email }) => {
+          // check if the user is already in the database
+          const user = await User.findOne({ email })
+          if (!user) {
+            // create user
+            // user created from google sign in
+            const googleUser = new User({
+              email,
+              name,
+              googleLogin: true
+            })
+            const newUser = await googleUser.save()
+            const token = generateAuthToken(newUser)
+            return token
+          }
+          else {
+            const token = generateAuthToken(user)
+            return token
+          }
+        })
+        .catch(console.error);
     }
   },
   Mutation: {

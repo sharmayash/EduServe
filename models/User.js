@@ -16,8 +16,17 @@ const UserSchema = new mongoose.Schema(
 		password: {
 			type: String,
 			trim: true,
-			required: true
-		}
+			required: false  // in case of google sign in
+      // TODO: VERY IMPORTANT
+      /*
+        add validation here if googleLogin is false 
+        then password cannot be null
+      */
+		},
+    googleLogin: {
+      type: Boolean,
+      default: false
+    }
 	},
 	{
 		timestamps: true
