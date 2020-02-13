@@ -1,6 +1,14 @@
+# -----------------------------------------------
+# QUERY
+# -----------------------------------------------
+
 type Query {
 	colleges: [College!]!
 }
+
+# -----------------------------------------------
+# MUTATION
+# -----------------------------------------------
 
 type Mutation {
 	newCollege(
@@ -13,6 +21,10 @@ type Mutation {
 		coursesOffered: [newCourse!]!
 	): College!
 }
+
+# -----------------------------------------------
+# TYPES
+# -----------------------------------------------
 
 type College {
 	user: ID!
@@ -30,16 +42,20 @@ type Courses {
 	streams: [Streams!]!
 }
 
+type Streams {
+	streamName: String!
+	fees: Int!
+	description: String!
+}
+
+# -----------------------------------------------
+# INPUTS
+# -----------------------------------------------
+
 input newCourse {
 	courseName: String!
 	totalSeats: Int!
 	streams: [newStream!]!
-}
-
-type Streams {
-	streamName: String!
-	fees: Int!
-	description: Int!
 }
 
 input newStream {
