@@ -38,12 +38,12 @@ type College {
 
 type Courses {
 	courseName: String!
-	totalSeats: Int!
 	streams: [Streams!]!
 }
 
 type Streams {
 	streamName: String!
+	totalSeats: Int!
 	fees: Int!
 	description: String!
 }
@@ -54,12 +54,12 @@ type Streams {
 
 input newCourse {
 	courseName: String!
-	totalSeats: Int!
 	streams: [newStream!]!
 }
 
 input newStream {
 	streamName: String!
+	totalSeats: Int!
 	fees: Int!
 	description: String!
 }

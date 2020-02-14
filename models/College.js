@@ -34,14 +34,18 @@ const CollegeSchema = new mongoose.Schema({
 				type: String,
 				required: true
 			},
-			totalSeats: {
-				type: Number,
+			category: {
+				type: String,
 				required: true
 			},
 			streams: [
 				{
 					streamName: {
 						type: String,
+						required: true
+					},
+					totalSeats: {
+						type: Number,
 						required: true
 					},
 					fees: {
