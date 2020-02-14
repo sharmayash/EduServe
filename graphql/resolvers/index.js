@@ -10,7 +10,7 @@ var generateAuthToken = user => {
       userId: user.id,
       userEmail: user.email
     },
-    "SECRETKEY",
+    process.env.SECRET_KEY,
     {
       expiresIn: "1h"
     }
