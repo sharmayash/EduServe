@@ -1,4 +1,7 @@
-import React from "react"
+import React, { useEffect } from "react"
+import PropTypes from "prop-types"
+import { connect } from "react-redux"
+import { getUsers } from "../../../redux/actions/users"
 
 // Material components
 import {
@@ -40,10 +43,10 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const streams = [
-  { name: "Medical", n_colleges: "455" },
-  { name: "Medical", n_colleges: "455" },
-  { name: "Medical", n_colleges: "455" },
-  { name: "Medical", n_colleges: "455" },
+  { name: "Medical", n_colleges: "123" },
+  { name: "Medical", n_colleges: "124" },
+  { name: "Medical", n_colleges: "125" },
+  { name: "Medical", n_colleges: "126" },
 ]
 
 function Stream(props) {
@@ -69,8 +72,12 @@ function Stream(props) {
   )
 }
 
-export default function Streams() {
+function Streams(props) {
   const classes = useStyles()
+
+  useEffect(() => {
+    props.getUsers()
+  }, [])
 
   return (
     <Container>
@@ -79,7 +86,14 @@ export default function Streams() {
       </Typography>
       <Grid container justify="center">
         {streams.map(stream => (
-          <Grid item lg={3} md={3} sm={3} xs={12} xl={12} key={stream.name}>
+          <Grid
+            item
+            lg={3}
+            md={3}
+            sm={3}
+            xs={12}
+            xl={12}
+            key={stream.n_colleges}>
             <Stream name={stream.name} n_colleges={stream.n_colleges} />
           </Grid>
         ))}
@@ -87,3 +101,14 @@ export default function Streams() {
     </Container>
   )
 }
+
+Streams.propTypes = {
+  getUsers: PropTypes.func.isRequired,
+  users: PropTypes.object.isRequired,
+}
+
+const mapStateToProps = state => ({
+  users: state.users,
+})
+
+export default connect(mapStateToProps, { getUsers })(Streams)
