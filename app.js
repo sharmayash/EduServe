@@ -73,6 +73,6 @@ graphServer.applyMiddleware({ app })
 d = new Date()
 app.listen(port, () =>
   console.log(
-    `Server started on ${port} --time<${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}>`
+    `Backend Server started on ${port} --time<${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}>`
   )
 )
