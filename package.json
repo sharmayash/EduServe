@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js -e js,graphql"
+    "dev": "nodemon app.js --ignore frontend/ -e js,graphql"
   },
   "author": "Raghav&Yash",
   "license": "ISC",
@@ -23,7 +23,8 @@
     "graphql": "^14.5.8",
     "helmet": "^3.21.2",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.8.9"
+    "mongoose": "^5.8.9",
+    "redux": "^4.0.5"
   },
   "devDependencies": {
     "@playlyfe/gql": "^2.6.2",

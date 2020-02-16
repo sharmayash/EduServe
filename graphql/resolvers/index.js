@@ -4,6 +4,8 @@ const User = require("../../models/User")
 const Student = require("../../models/Student")
 const College = require("../../models/College")
 
+const { OAuth2Client } = require('google-auth-library');
+
 var generateAuthToken = user => {
   let token = jwt.sign(
     {
@@ -21,8 +23,6 @@ var generateAuthToken = user => {
     tokenExpiration: 1
   }
 }
-
-const { OAuth2Client } = require('google-auth-library');
 
 const resolvers = {
   Query: {
@@ -60,7 +60,7 @@ const resolvers = {
         });
         const payload = ticket.getPayload();  // this returns a Promise
         const userid = payload['sub'];        // unique for each user
-      return payload                          // look at return type of verify
+        return payload                          // look at return type of verify
       }
       return verify()
         .then(async ({ name, email }) => {
@@ -84,6 +84,34 @@ const resolvers = {
           }
         })
         .catch(console.error);
+    },
+    isUserLoggedIn: async (_, args, req) => {
+      if (!req.isAuth) return false;   // For private routes
+
+      const user = await User.findById({ id: req.userId })
+      if (user) return true;
+      else return false;
+    },
+    // TODO: MAKE A SINGLE QUERY FOR ABOVE QUERY AND BELOW QUERY
+    getUserInfo: async (_, args, req) => {
+      if (!req.isAuth) throw new Error('Not Authorized');   // For private routes
+
+      const user = await User.findById({ id: req.userId })
+      const {
+        _id,
+        name,
+        email,
+        createdAt,
+        updatedAt,
+      } = user
+
+      if (user) return {
+        _id,
+        name,
+        email,
+        createdAt,
+        updatedAt,
+      };
     }
   },
   Mutation: {

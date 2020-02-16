@@ -10,6 +10,7 @@ const helmet = require('helmet')
 require('dotenv').config()    // For .env files
 
 require('./db/mongoose')    // DB connection initialize
+const { authenticate } = require('./middleware/authenticate')
 
 const resolvers = require("./graphql/resolvers/index")
 
@@ -46,29 +47,32 @@ app.use(cors())
 
 app.use(compression())
 
+
 const port = process.env.PORT || 4000
 
 app.use(bodyParser.json({ limit: "1mb" }))
 app.use(bodyParser.urlencoded({ extended: false, limit: "1mb" }))
 
+app.use(authenticate)
+
 let schemas = fs.readdirSync(path.join(__dirname, "graphql/schemas"))
 let typeDefs = []
 schemas.forEach(schema => {
-	typeDefs.push(
-		fs.readFileSync(path.join(__dirname, `graphql/schemas/${schema}`), "utf8")
-	)
+  typeDefs.push(
+    fs.readFileSync(path.join(__dirname, `graphql/schemas/${schema}`), "utf8")
+  )
 })
 
 const graphServer = new ApolloServer({
-	typeDefs,
-	resolvers
+  typeDefs,
+  resolvers
 })
 
 graphServer.applyMiddleware({ app })
 
 d = new Date()
 app.listen(port, () =>
-	console.log(
-		`Server started on ${port} --time<${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}>`
-	)
+  console.log(
+    `Server started on ${port} --time<${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}>`
+  )
 )
