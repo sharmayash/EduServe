@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
-import { getUsers } from "../../../redux/actions/users"
+import { Link } from "react-router-dom"
 
 // Material components
 import {
@@ -44,9 +44,9 @@ const useStyles = makeStyles(theme => ({
 
 const streams = [
   { name: "Medical", n_colleges: "123" },
-  { name: "Medical", n_colleges: "124" },
-  { name: "Medical", n_colleges: "125" },
-  { name: "Medical", n_colleges: "126" },
+  { name: "Engineering", n_colleges: "124" },
+  { name: "Pharma", n_colleges: "125" },
+  { name: "Aviation", n_colleges: "126" },
 ]
 
 function Stream(props) {
@@ -54,30 +54,28 @@ function Stream(props) {
   const { name, n_colleges } = props
 
   return (
-    <Card className={classes.root} elevation={0}>
-      <CardActionArea>
-        <CardContent>
-          <Typography variant="h5" component="h2">
-            {name}
+    <Link to={`/streams/${name}`}>
+      <Card className={classes.root} elevation={0}>
+        <CardActionArea>
+          <CardContent>
+            <Typography variant="h5" component="h2">
+              {name}
+            </Typography>
+          </CardContent>
+          <Typography
+            className={classes.title}
+            color="textSecondary"
+            gutterBottom>
+            {n_colleges} Colleges
           </Typography>
-        </CardContent>
-        <Typography
-          className={classes.title}
-          color="textSecondary"
-          gutterBottom>
-          {n_colleges} Colleges
-        </Typography>
-      </CardActionArea>
-    </Card>
+        </CardActionArea>
+      </Card>
+    </Link>
   )
 }
 
 function Streams(props) {
   const classes = useStyles()
-
-  useEffect(() => {
-    props.getUsers()
-  }, [])
 
   return (
     <Container>
@@ -102,13 +100,8 @@ function Streams(props) {
   )
 }
 
-Streams.propTypes = {
-  getUsers: PropTypes.func.isRequired,
-  users: PropTypes.object.isRequired,
-}
+Streams.propTypes = {}
 
-const mapStateToProps = state => ({
-  users: state.users,
-})
+const mapStateToProps = state => ({})
 
-export default connect(mapStateToProps, { getUsers })(Streams)
+export default connect(mapStateToProps, {})(Streams)

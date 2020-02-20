@@ -27,6 +27,7 @@ type Mutation {
 # -----------------------------------------------
 
 type College {
+	_id: ID!
 	user: ID!
 	collegename: String!
 	establishedYear: Int!
@@ -38,6 +39,7 @@ type College {
 
 type Courses {
 	courseName: String!
+	category: String!
 	streams: [Streams!]!
 }
 
@@ -54,6 +56,7 @@ type Streams {
 
 input newCourse {
 	courseName: String!
+	category: String!
 	streams: [newStream!]!
 }
 
