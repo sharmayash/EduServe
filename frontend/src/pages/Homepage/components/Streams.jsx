@@ -42,32 +42,21 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const streams = [
-  { name: "Medical", n_colleges: "123" },
-  { name: "Engineering", n_colleges: "124" },
-  { name: "Pharma", n_colleges: "125" },
-  { name: "Aviation", n_colleges: "126" },
-]
+const streams = ["Medical", "Engineering", "Pharma", "Aviation"]
 
 function Stream(props) {
   const classes = useStyles()
-  const { name, n_colleges } = props
+  const { name } = props
 
   return (
-    <Link to={`/streams/${name}`}>
+    <Link to={`/streams/${name}`} style={{ textDecoration: "none" }}>
       <Card className={classes.root} elevation={0}>
         <CardActionArea>
           <CardContent>
-            <Typography variant="h5" component="h2">
+            <Typography variant="h4" component="h2">
               {name}
             </Typography>
           </CardContent>
-          <Typography
-            className={classes.title}
-            color="textSecondary"
-            gutterBottom>
-            {n_colleges} Colleges
-          </Typography>
         </CardActionArea>
       </Card>
     </Link>
@@ -84,15 +73,8 @@ function Streams(props) {
       </Typography>
       <Grid container justify="center">
         {streams.map(stream => (
-          <Grid
-            item
-            lg={3}
-            md={3}
-            sm={3}
-            xs={12}
-            xl={12}
-            key={stream.n_colleges}>
-            <Stream name={stream.name} n_colleges={stream.n_colleges} />
+          <Grid item lg={3} md={6} sm={6} xs={12} xl={12} key={stream}>
+            <Stream name={stream} />
           </Grid>
         ))}
       </Grid>

@@ -9,6 +9,7 @@ export const getColleges = () => dispatch => {
         colleges{
           _id
           collegename
+          bio
           coursesOffered {
             category
           }
