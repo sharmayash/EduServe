@@ -3,6 +3,12 @@ const { compareSync } = require('bcryptjs')
 
 const UserSchema = new mongoose.Schema(
   {
+    username: {
+      type: String,
+      required: true,
+      max: 40,
+      unique: true
+    },
     name: {
       type: String,
       trim: true,

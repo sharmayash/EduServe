@@ -5,11 +5,6 @@ const StudentSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "users"
 	},
-	username: {
-		type: String,
-		required: true,
-		max: 40
-	},
 	age: {
 		type: Number,
 		trim: true,

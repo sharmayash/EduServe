@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "client": "npm start --prefix frontend",
-    "dev": "nodemon app.js --ignore frontend/ -e js,graphql",
+    "dev": "nodemon app.js --ignore frontend/ --ignore chat-client/ -e js,graphql",
     "both": "concurrently \"npm run dev\" \"npm run client\""
   },
   "author": "Raghav&Yash",
@@ -27,7 +27,8 @@
     "helmet": "^3.21.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.8.9",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "@playlyfe/gql": "^2.6.2",
