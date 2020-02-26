@@ -15,7 +15,7 @@ extend type Query {
 # -----------------------------------------------
 
 extend type Mutation {
-	createUser(name: String!, email: String!, password: String!): AuthData!
+	createUser(name: String!, username: String!, email: String!, password: String!): AuthData!
 }
 
 # -----------------------------------------------
@@ -32,6 +32,7 @@ type User {
 	_id: ID!
 	name: String!
 	email: String!
+	username: String!
 	password: String
 	createdAt: String!
 	updatedAt: String!
