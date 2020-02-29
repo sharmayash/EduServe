@@ -4,6 +4,7 @@
 
 type Query {
 	colleges: [College!]!
+	getCategoryInfo: [CategoryInfo!]!
 }
 
 # -----------------------------------------------
@@ -48,6 +49,11 @@ type Streams {
 	totalSeats: Int!
 	fees: Int!
 	description: String!
+}
+
+type CategoryInfo {
+	catName: String!
+	noOfColleges: Int!
 }
 
 # -----------------------------------------------
