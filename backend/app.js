@@ -1,4 +1,3 @@
-const http = require('http')
 const fs = require("fs")
 const path = require("path")
 const cors = require("cors")
@@ -10,6 +9,7 @@ const { ApolloServer } = require("apollo-server-express")
 const helmet = require('helmet')
 require('dotenv').config()    // For .env files
 const socketio = require('socket.io')
+require('app-module-path').addPath(__dirname)   // For creating better require paths
 
 require('./db/mongoose')    // DB connection initialize
 const { authenticate } = require('./middleware/authenticate')

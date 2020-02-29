@@ -3,7 +3,6 @@
 # -----------------------------------------------
 
 extend type Query {
-	users: [User!]!
   loginUser(email: String!, password: String!): AuthData!
   googleSignIn(id_token: String!): AuthData!
   isUserLoggedIn: Boolean!

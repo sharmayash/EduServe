@@ -4,7 +4,7 @@
 
 type Query {
 	colleges: [College!]!
-	getCategoryInfo: [CategoryInfo!]!
+	getAllCategories: [CategoryInfo!]!
 }
 
 # -----------------------------------------------
@@ -13,7 +13,7 @@ type Query {
 
 type Mutation {
 	newCollege(
-		user: ID!
+		admin: ID!
 		collegename: String!
 		establishedYear: Int!
 		contactNo: Int!
@@ -29,7 +29,7 @@ type Mutation {
 
 type College {
 	_id: ID!
-	user: ID!
+	admin: ID!
 	collegename: String!
 	establishedYear: Int!
 	contactNo: Int!
