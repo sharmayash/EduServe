@@ -52,6 +52,7 @@ type Streams {
 }
 
 type CareerInfo {
+  _id: ID!
 	name: String!
 	n_colleges: Int!
 }
