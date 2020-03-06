@@ -7,7 +7,6 @@ module.exports = {
 
   async loginUser(parent, { email, password }, req) {
     try {
-      console.log(123)
       const user = await User.findOne({ email })
       if (!user) throw new Error("No such user exists")
       if (!bcrypt.compareSync(password, user.password)) {

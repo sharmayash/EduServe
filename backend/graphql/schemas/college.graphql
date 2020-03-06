@@ -4,7 +4,7 @@
 
 type Query {
 	colleges: [College!]!
-	getAllCategories: [CategoryInfo!]!
+	getAllCareers: [CareerInfo!]!
 }
 
 # -----------------------------------------------
@@ -14,11 +14,11 @@ type Query {
 type Mutation {
 	newCollege(
 		admin: ID!
-		collegename: String!
+		name: String!
 		establishedYear: Int!
 		contactNo: Int!
 		state: String!
-		bio: String!
+    careers: [String!]!
 		coursesOffered: [newCourse!]!
 	): College!
 }
@@ -34,26 +34,26 @@ type College {
 	establishedYear: Int!
 	contactNo: Int!
 	state: String!
+  careers: [String!]!
 	bio: String!
 	coursesOffered: [Courses!]!
 }
 
 type Courses {
-	courseName: String!
-	category: String!
+	name: String!
 	streams: [Streams!]!
+  fees: Int!
+  type: String!
+  duration: String!
 }
 
 type Streams {
-	streamName: String!
-	totalSeats: Int!
-	fees: Int!
-	description: String!
+	name: String!
 }
 
-type CategoryInfo {
-	catName: String!
-	noOfColleges: Int!
+type CareerInfo {
+	name: String!
+	n_colleges: Int!
 }
 
 # -----------------------------------------------
@@ -61,14 +61,13 @@ type CategoryInfo {
 # -----------------------------------------------
 
 input newCourse {
-	courseName: String!
-	category: String!
+	name: String!
 	streams: [newStream!]!
+  fees: Int!
+  type: String!
+  duration: String!
 }
 
 input newStream {
-	streamName: String!
-	totalSeats: Int!
-	fees: Int!
-	description: String!
+	name: String!
 }
