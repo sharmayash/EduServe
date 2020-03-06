@@ -42,14 +42,14 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const streams = ["Medical", "Engineering", "Pharma", "Aviation"]
+const categories = ["Medical", "Engineering", "Pharma", "Aviation"]
 
 function Stream(props) {
   const classes = useStyles()
   const { name } = props
 
   return (
-    <Link to={`/streams/${name}`} style={{ textDecoration: "none" }}>
+    <Link to={`/category/${name}`} style={{ textDecoration: "none" }}>
       <Card className={classes.root} elevation={0}>
         <CardActionArea>
           <CardContent>
@@ -69,12 +69,12 @@ function Streams(props) {
   return (
     <Container>
       <Typography variant="h5" className={classes.sectionHeading}>
-        Streams
+        Careers
       </Typography>
       <Grid container justify="center">
-        {streams.map(stream => (
-          <Grid item lg={3} md={6} sm={6} xs={12} xl={12} key={stream}>
-            <Stream name={stream} />
+        {categories.map(category => (
+          <Grid item lg={3} md={6} sm={6} xs={12} xl={12} key={category}>
+            <Stream name={category} />
           </Grid>
         ))}
       </Grid>

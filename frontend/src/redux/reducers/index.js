@@ -1,10 +1,6 @@
 import { combineReducers } from "redux"
-// import authReducer from './authReducer';
-// import users from "./users"
-import colleges from "./colleges"
+import collegeReducer from "./collegeReducer"
 
 export default combineReducers({
-  // authReducer,
-  // users,
-  colleges,
+  collegeReducer
 })
