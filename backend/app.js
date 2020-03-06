@@ -101,27 +101,29 @@ chatServer.init(io)
 const Room = require('./models/Room')
 const User = require('./models/User')
 const Chat = require('./models/Chat')
+const College = require('./models/College')
+const Career = require('./models/Career')
 const mongoose = require('mongoose')
+
 app.get('/test', async (req, res) => {
-  // new Room({
-  //   members: [mongoose.Types.ObjectId("5e50d6b849d9b404082fda9d"),
-  //   mongoose.Types.ObjectId("5e50d6c1aa8fd53d84e89fb2")
-  //   ],
-  //   name: "test",
-  //   chats: [
-  //     mongoose.Types.ObjectId("5e50d76864e48330e4c664a6"),
-  //     mongoose.Types.ObjectId("5e50d76864e48330e4c664a7")
-  //   ]
-  // }).save()
-  const room = await Room.findOne({
-    name: "test",
-    members: { $all: ["5e50d6b849d9b404082fda9d"] }
-  }).populate({
-    path: "chats", model: Chat, options: { limit: 10, sort: { 'createdAt': 1 } },
-    populate: {
-      path: 'sender', model: User, select: 'name -_id'
+
+  let ans = await Career.aggregate([
+    {
+      $lookup: {
+        from: "colleges",
+        localField: "name",
+        foreignField: "careers",
+        as: "colleges",
+      }
+    },
+    {
+      $project: {
+        name: 1,
+        n_colleges: { $size: "$colleges" }
+      }
     }
-  })
-  .select('chats')
-  res.send(room)
+  ])
+
+  res.send(ans)
+
 })
