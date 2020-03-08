@@ -1,6 +1,7 @@
 import React from "react"
 import { GoogleLogin } from "react-google-login"
 import axios from "axios"
+import { connect } from "react-redux"
 
 // Material components
 import {
@@ -19,6 +20,9 @@ import {
   Divider,
 } from "@material-ui/core"
 
+import { loginUser } from "../../redux/actions/auth"
+import { setMsg } from "../../redux/actions/message"
+
 const useStyles = makeStyles(theme => ({
   form: {
     width: "100%", // Fix IE 11 issue.
@@ -29,9 +33,14 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function FormDialog(props) {
+function FormDialog(props) {
   const classes = useStyles()
   const { open, changeOpenState } = props
+
+  const [input, changeInput] = React.useState({
+    email: "test@post.cmm",
+    password: "1234",
+  })
 
   const handleClose = () => {
     changeOpenState()
@@ -60,6 +69,16 @@ export default function FormDialog(props) {
     console.log(err)
   }
 
+  const loginUser = async e => {
+    try {
+      const res = await props.loginUser(input.email, input.password)
+      props.setMsg(`Welcome ${res.userEmail}`, "success")
+      handleClose()
+    } catch (error) {
+      props.setMsg("There was an error", "error")
+    }
+  }
+
   return (
     <div>
       <Dialog
@@ -83,6 +102,10 @@ export default function FormDialog(props) {
               required
               fullWidth
               id="email"
+              value={input.email}
+              onChange={e =>
+                changeInput({ ...input, [e.target.name]: e.target.value })
+              }
               label="Email Address"
               name="email"
               autoComplete="email"
@@ -92,7 +115,11 @@ export default function FormDialog(props) {
               required
               fullWidth
               name="password"
+              value={input.password}
               label="Password"
+              onChange={e =>
+                changeInput({ ...input, [e.target.name]: e.target.value })
+              }
               type="password"
               id="password"
               autoComplete="current-password"
@@ -106,6 +133,8 @@ export default function FormDialog(props) {
               fullWidth
               variant="contained"
               color="primary"
+              onClick={loginUser}
+              disabled={input.email === "" || input.password === ""}
               className={classes.submit}>
               Continue
             </Button>
@@ -147,3 +176,5 @@ export default function FormDialog(props) {
     </div>
   )
 }
+
+export default connect(null, { loginUser, setMsg })(FormDialog)

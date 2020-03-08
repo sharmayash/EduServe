@@ -22,7 +22,7 @@ import styles from "./styles"
 // Custom components
 import LoginModal from "./login-modal"
 
-import logo from '../../../static/images/logo.png'
+import logo from "../../../static/images/logo.png"
 
 const useStyles = makeStyles(styles)
 
@@ -51,15 +51,12 @@ export default function ElevateAppBar(props) {
       />
       <ElevationScroll {...props}>
         <AppBar
-          color="transparent"
+          color="default"
           classes={{
-            colorTransparent: classes.colorTransparent,
+            colorDefault: classes.colorTransparent,
           }}>
           <Toolbar>
-            <img
-              style={{ height: "1.35rem" }}
-              src={logo}
-            />
+            <img style={{ height: "1.35rem" }} src={logo} />
             <span className={classes.title}></span>
             <div className={classes.search}>
               <div className={classes.searchIcon}>

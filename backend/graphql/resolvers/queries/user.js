@@ -12,8 +12,8 @@ module.exports = {
       if (!bcrypt.compareSync(password, user.password)) {
         throw new Error("Invalid password")
       } else {
-        let token = generateAuthToken(user)
-        return token
+        let auth_data = generateAuthToken(user)
+        return auth_data
       }
     } catch (error) {
       console.log(error)

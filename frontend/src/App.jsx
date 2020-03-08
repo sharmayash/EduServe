@@ -14,6 +14,7 @@ import theme from "./themes/theme"
 
 import Header from "./components/header"
 import Footer from "./components/footer"
+import Message from "./components/message"
 
 // Browser history
 const browserHistory = createBrowserHistory()
@@ -22,6 +23,7 @@ export default () => (
   <Provider store={store}>
     <ThemeProvider theme={theme}>
       <Header />
+      <Message />
       <Router history={browserHistory}>
         <Routes />
       </Router>

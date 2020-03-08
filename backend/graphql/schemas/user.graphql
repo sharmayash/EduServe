@@ -23,6 +23,7 @@ extend type Mutation {
 
 type AuthData {
 	userId: String!
+  userEmail: String!
 	token: ID!
 	tokenExpiration: Int!
 }
