@@ -6,7 +6,7 @@
         <q-card-section class="row items-center no-wrap">
           <div>
             <div class="text-weight-bold">{{ message }}</div>
-            <div class="text-grey">Fitz & The Tantrums</div>
+            <!-- <div class="text-grey">Fitz & The Tantrums</div> -->
           </div>
 
           <q-space />

@@ -1,3 +1,3 @@
-export const GET_userId = ({ userId }) => userId
+export const GET_userId = ({ auth }) => auth.userId
 
-export const GET_username = ({ username }) => username
+export const GET_username = ({ auth }) => auth.username
