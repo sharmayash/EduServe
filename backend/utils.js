@@ -14,6 +14,7 @@ const generateAuthToken = user => {
   return {
     userId: user.id,
     userEmail: user.email,
+    username: user.username,
     token,
     tokenExpiration: 1
   }

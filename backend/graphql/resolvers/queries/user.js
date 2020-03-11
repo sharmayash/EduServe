@@ -55,10 +55,11 @@ module.exports = {
       .catch(console.error)
   },
 
-  async isUserLoggedIn(_, args, req) {
+  async isUserLoggedIn(_, args, {req}) {
+    console.log(req.isAuth);
     if (!req.isAuth) return false // For private routes
 
-    const user = await User.findById({ id: req.userId })
+    const user = await User.findById(req.userId)
     if (user) return true
     else return false
   },

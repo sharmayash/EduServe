@@ -23,7 +23,7 @@ var authenticate = (req, res, next) => {
     // algorithm: "RS256"
   };
   try {
-    decoded = jwt.verify(token, 'SECRETKEY', VerifyOptions)
+    decoded = jwt.verify(token, process.env.SECRET_KEY, VerifyOptions)
   } catch (error) {
     console.log(error);
     req.isAuth = false

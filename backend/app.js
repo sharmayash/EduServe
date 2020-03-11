@@ -82,7 +82,12 @@ schemas.forEach(schema => {
 
 const graphServer = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers,
+  context: ({ req }) => { 
+    return {
+      req
+    }
+  }
 })
 
 graphServer.applyMiddleware({ app })
