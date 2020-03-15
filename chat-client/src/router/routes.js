@@ -1,3 +1,6 @@
+import Store from '../store';
+
+const store = Store()
 
 const routes = [
   {
@@ -6,7 +9,20 @@ const routes = [
     children: [
       { path: '/chat', component: () => import('pages/Index.vue') },
       { path: '/login', component: () => import('pages/Login.vue') },
-      { path: '/', component: () => import('pages/Join.vue') },
+      {
+        path: '/',
+        component: () => import('pages/Join.vue'),
+        beforeEnter: async (to, from, next) => {
+          const res = await store.dispatch("auth/LOAD_USER")
+          if (res === null) {
+            store.dispatch("chat/SET_NOTIFICATION", {
+              message: "Session expired",
+              type: "info"
+            })
+            next('/login')
+          }
+        }
+      },
     ]
   }
 ]

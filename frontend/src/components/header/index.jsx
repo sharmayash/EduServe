@@ -1,4 +1,5 @@
 import React from "react"
+import { connect } from "react-redux"
 
 // Material components
 import {
@@ -37,8 +38,9 @@ function ElevationScroll(props) {
     elevation: trigger ? 4 : 0,
   })
 }
-export default function ElevateAppBar(props) {
+function ElevateAppBar(props) {
   const classes = useStyles()
+  const { auth } = props
 
   const [dialogOpen, setDialogOpen] = React.useState(false)
 
@@ -71,12 +73,20 @@ export default function ElevateAppBar(props) {
                 inputProps={{ "aria-label": "search" }}
               />
             </div>
-            <Button
-              onClick={() => setDialogOpen(true)}
-              color="primary"
-              variant="contained">
-              Join
-            </Button>
+            {auth.isAuthenticated ? (
+              <Button
+                color="primary"
+                variant="contained">
+                Profile
+              </Button>
+            ) : (
+              <Button
+                onClick={() => setDialogOpen(true)}
+                color="primary"
+                variant="contained">
+                Join
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
       </ElevationScroll>
@@ -84,3 +94,8 @@ export default function ElevateAppBar(props) {
     </React.Fragment>
   )
 }
+const mapStateToProps = state => ({
+  auth: state.authReducer,
+})
+
+export default connect(mapStateToProps)(ElevateAppBar)

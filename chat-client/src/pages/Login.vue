@@ -46,12 +46,23 @@ export default {
 
   methods: {
     async login() {
-      this.submitting = true;
-      let x = await this.$store.dispatch("auth/LOGIN", {
-        email: this.email,
-        password: this.password
-      });
-      console.log(x);
+      try {
+        this.submitting = true;
+        let res = await this.$store.dispatch("auth/LOGIN", {
+          email: this.email,
+          password: this.password
+        });
+        console.log(res);
+        this.$store.dispatch("chat/SET_NOTIFICATION", {
+          message: `Welcome ${res.userEmail}`,
+          type: "success"
+        });
+      } catch (error) {
+        this.$store.dispatch("chat/SET_NOTIFICATION", {
+          message: error.message,
+          type: "error"
+        });
+      }
       this.submitting = false;
     }
   },

@@ -13,12 +13,40 @@ export const LOGIN = ({ commit }, { email, password }) => {
         `,
   }
 
-  return axios.post("http://localhost:4000/graphql", requestBody)
+  return axios.post("/graphql", requestBody)
     .then(({ data }) => {
-      commit("MUTATE_LOGIN", data.data.loginUser)
-      return data.data.loginUser;
+      return new Promise((resolve, reject) => {
+        try {
+          commit("MUTATE_LOGIN", data.data.loginUser)
+          localStorage.setItem("token", data.data.loginUser.token)
+          resolve(data.data.loginUser)
+          // return data.data.loginUser
+
+        } catch (error) {
+          reject(data.errors[0].message)
+          // return new Error(error)
+        }
+      })
     })
-    .catch(e => {
-      console.log(e);
-    })
+}
+
+export const LOAD_USER = ({ commit }) => {
+  const token = localStorage.getItem('token')
+  if (!token) return null;
+  else {
+    const requestBody = {
+      query:
+        `query isUserLoggedIn {
+           isUserLoggedIn
+         }`
+    }
+
+    return axios.post('/graphql', requestBody)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(e => {
+        console.log(e);
+      })
+  }
 }
