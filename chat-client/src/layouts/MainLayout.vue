@@ -74,7 +74,7 @@ export default {
 	name: "MainLayout",
 
 	beforeUpdate() {
-		if (window.location.pathname === "/") this.showFooter = false
+		if (window.location.pathname !== "/chat") this.showFooter = false
 		else this.showFooter = true
 	},
 

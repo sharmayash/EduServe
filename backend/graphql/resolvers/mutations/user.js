@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs")
 const User = require("models/User")
-
+const { generateAuthToken } = require("../../../utils")
 module.exports = {
   async createUser(parent, { name, email, password, username }, req) {
     try {

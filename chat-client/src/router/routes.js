@@ -21,8 +21,8 @@ const routes = [
     children: [
       {
         path: '/chat',
-        component: () => import('pages/Index.vue'),
-        beforeEnter: routeGuard
+        component: () => import('pages/Chat.vue'),
+        // beforeEnter: routeGuard
       },
       {
         path: '/login',

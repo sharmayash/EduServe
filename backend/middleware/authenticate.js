@@ -25,7 +25,7 @@ var authenticate = (req, res, next) => {
   try {
     decoded = jwt.verify(token, process.env.SECRET_KEY, VerifyOptions)
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     req.isAuth = false
     return next()
   }

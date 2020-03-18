@@ -34,7 +34,7 @@ module.exports = {
         // 1. CHECK IF THE ROOM EXISTS
         // 2. CHECK THE TYPE PUBLIC | PRIVATE
         try {
-          const room = Room.findOne({
+          const room = await Room.findOne({
             name: data.room_name
           }).populate({
             path: 'chats',
@@ -63,7 +63,6 @@ module.exports = {
               callback(null, room.chats)
             })
           }
-
           callback(null, room.chats)
         }
         catch (err) {
@@ -77,7 +76,7 @@ module.exports = {
         const room = new Room({
           is_private,
           name: room_name,
-          members: [mongoose.ObjectId(user_id)]
+          members: [mongoose.Types.ObjectId(user_id)]
         })
         room.save()
         socket.join('' + room_name, err => {

@@ -58,6 +58,16 @@
 							/>
 						</div>
 					</div>
+					<div class="row justify-center q-mt-md">
+						<q-toggle
+							v-model="is_private"
+							checked-icon="lock"
+							color="green"
+							size="lg"
+							unchecked-icon="clear"
+							:label="`The room will be ${is_private ? 'Private' : 'Public'}`"
+						/>
+					</div>
 					<div class="row justify-center">
 						<q-btn
 							type="submit"
@@ -115,14 +125,36 @@ export default {
 				}
 			)
 		},
-		create() {}
+		create() {
+			this.submitting = true
+			this.$socket.emit(
+				"create",
+				{
+					room_name: this.room_name,
+					is_private: this.is_private,
+					user_id: this.GET_userId
+				},
+				error => {
+					this.submitting = false
+					if (error) {
+						alert(error)
+					} else {
+						this.$router.push({
+							path: "/chat",
+							query: { name: this.room_name }
+						})
+					}
+				}
+			)
+		}
 	},
 
 	data() {
 		return {
-			room_name: "",
+			room_name: "test",
 			submitting: false,
-			panel: "join"
+			panel: "join",
+			is_private: false
 		}
 	}
 }

@@ -69,7 +69,8 @@ module.exports = function (ctx) {
         'QSpinnerFacebook',
         'QTabPanels',
         'QTabPanel',
-        'QOptionGroup'
+        'QOptionGroup',
+        'QToggle'
       ],
 
       directives: [
