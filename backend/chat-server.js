@@ -1,9 +1,11 @@
+const mongoose = require("mongoose")
+
 const Room = require('./models/Room')
 const Chat = require('./models/Chat')
 const User = require('./models/User')
 
 module.exports = {
-  init(io) {
+  init(io = require('socket.io')() /* FOR INTELLISENSE */) {
     io.on('connection', socket => {
       console.log('New web socket connection!');
 
@@ -30,33 +32,58 @@ module.exports = {
       // WHEN USER WANTS TO JOIN
       socket.on('join', async (data, callback) => {
         // 1. CHECK IF THE ROOM EXISTS
-        // 2. CHECK THE MEMBERS
+        // 2. CHECK THE TYPE PUBLIC | PRIVATE
         try {
-          const room = await Room.findOne({
-            name: data.room_name,
-            members: { $all: [data.user_id] }
+          const room = Room.findOne({
+            name: data.room_name
+          }).populate({
+            path: 'chats',
+            model: Chat,
+            select: "-updatedAt -__v",
+            options: { sort: { 'createdAt': 1 }, limit: 10 },
+            populate: {
+              path: 'sender', model: User, select: 'username -_id'
+            }
           })
-            .populate({
-              path: 'chats',
-              model: Chat,
-              select: "-updatedAt -__v",
-              options: { sort: { 'createdAt': 1 }, limit: 10 },
-              populate: {
-                path: 'sender', model: User, select: 'username -_id'
-              }
-            })
-            .select('chats -_id')
+            .select('chats members type -_id')
 
           if (!room) {
             callback('No such room or access denied')
           }
-          else {
-            callback(null, room.chats)
+
+          if (room.is_private) {
+            const isMember = room.findOne({
+              members: { $all: [data.user_id] }
+            })
+
+            if (!isMember) callback('Private room')
+
+            socket.join('' + room.name, (err) => {
+              if (err) callback(err)
+              callback(null, room.chats)
+            })
           }
+
+          callback(null, room.chats)
         }
         catch (err) {
           console.log(err)
         }
+      })
+
+      // WHEN USER WANTS TO CREATE A ROOM
+      socket.on('create', async (data, callback) => {
+        const { is_private, room_name, user_id } = data
+        const room = new Room({
+          is_private,
+          name: room_name,
+          members: [mongoose.ObjectId(user_id)]
+        })
+        room.save()
+        socket.join('' + room_name, err => {
+          if (err) callback(err)
+          callback(null)
+        })
       })
 
       // WHEN USER SENDS CHAT MESSAGE

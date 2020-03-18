@@ -1,31 +1,80 @@
 <template>
 	<q-page>
-		<form @submit.prevent="simulateSubmit" class="q-pa-md">
+		<div class="q-pa-md">
 			<div class="row justify-center">
-				<div class="col-3">
-					<q-input
-						filled
-						v-model="room_name"
-						label="Room Name"
-						hint="Enter the room to join"
-						color="teal"
-					/>
-				</div>
+				<q-option-group
+					v-model="panel"
+					inline
+					:options="[
+						{ label: 'Join', value: 'join' },
+						{ label: 'Create', value: 'create' }
+					]"
+				/>
 			</div>
-			<div class="row justify-center">
-				<q-btn
-					type="submit"
-					:loading="submitting"
-					label="Join"
-					class="q-mt-md"
-					color="teal"
-				>
-					<template v-slot:loading>
-						<q-spinner-facebook />
-					</template>
-				</q-btn>
-			</div>
-		</form>
+
+			<q-tab-panels
+				v-model="panel"
+				animated
+				transition-prev="scale"
+				transition-next="scale"
+			>
+				<q-tab-panel name="join">
+					<div class="row justify-center">
+						<div class="col-3">
+							<q-input
+								filled
+								v-model="room_name"
+								label="Room Name"
+								hint="Enter the room to join"
+								color="teal"
+							/>
+						</div>
+					</div>
+					<div class="row justify-center">
+						<q-btn
+							type="submit"
+							:loading="submitting"
+							label="Join"
+							class="q-mt-md"
+							color="teal"
+							@click="join"
+						>
+							<template v-slot:loading>
+								<q-spinner-facebook />
+							</template>
+						</q-btn>
+					</div>
+				</q-tab-panel>
+
+				<q-tab-panel name="create">
+					<div class="row justify-center">
+						<div class="col-3">
+							<q-input
+								filled
+								v-model="room_name"
+								label="Room Name"
+								hint="Enter the room to join"
+								color="teal"
+							/>
+						</div>
+					</div>
+					<div class="row justify-center">
+						<q-btn
+							type="submit"
+							:loading="submitting"
+							label="Create"
+							class="q-mt-md"
+							color="green"
+							@click="create"
+						>
+							<template v-slot:loading>
+								<q-spinner-facebook />
+							</template>
+						</q-btn>
+					</div>
+				</q-tab-panel>
+			</q-tab-panels>
+		</div>
 	</q-page>
 </template>
 
@@ -40,7 +89,7 @@ export default {
 	},
 
 	methods: {
-		simulateSubmit() {
+		join() {
 			this.submitting = true
 			this.$socket.emit(
 				"join",
@@ -56,7 +105,7 @@ export default {
 						this.submitting = false
 
 						// data is chats from server
-						console.log(data);
+						console.log(data)
 						this.$store.dispatch("chat/INIT_MSGS", data)
 						this.$router.push({
 							path: "/chat",
@@ -65,13 +114,15 @@ export default {
 					}
 				}
 			)
-		}
+		},
+		create() {}
 	},
 
 	data() {
 		return {
 			room_name: "",
-			submitting: false
+			submitting: false,
+			panel: "join"
 		}
 	}
 }

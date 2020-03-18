@@ -9,6 +9,11 @@ const RoomSchema = new mongoose.Schema({
     trim: true,
     unique: true
   },
+  is_private: {       // PUBLIC | PRIVATE 
+    type: Boolean,
+    required: true,
+    default: false
+  },
   chats: [{
     type: ObjectId,
     ref: "chat"

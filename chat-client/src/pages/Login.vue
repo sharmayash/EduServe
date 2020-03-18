@@ -1,78 +1,78 @@
 <template>
-  <q-page>
-    <form @submit.prevent="login" class="q-pa-md">
-      <div class="row justify-center q-ma-md">
-        <div class="col-3">
-          <q-input filled v-model="email" label="Email" color="teal" />
-        </div>
-      </div>
-      <div class="row justify-center q-ma-md">
-        <div class="col-3">
-          <q-input
-            filled
-            v-model="password"
-            label="Password"
-            type="password"
-            color="teal"
-          />
-        </div>
-      </div>
-      <div class="row justify-center">
-        <q-btn
-          type="submit"
-          :loading="submitting"
-          label="Login"
-          class="q-mt-md"
-          color="teal"
-        >
-          <template v-slot:loading>
-            <q-spinner-facebook />
-          </template>
-        </q-btn>
-      </div>
-    </form>
-  </q-page>
+	<q-page>
+		<form @submit.prevent="login" class="q-pa-md">
+			<div class="row justify-center q-ma-md">
+				<div class="col-3">
+					<q-input filled v-model="email" label="Email" color="teal" />
+				</div>
+			</div>
+			<div class="row justify-center q-ma-md">
+				<div class="col-3">
+					<q-input
+						filled
+						v-model="password"
+						label="Password"
+						type="password"
+						color="teal"
+					/>
+				</div>
+			</div>
+			<div class="row justify-center">
+				<q-btn
+					type="submit"
+					:loading="submitting"
+					label="Login"
+					class="q-mt-md"
+					color="teal"
+				>
+					<template v-slot:loading>
+						<q-spinner-facebook />
+					</template>
+				</q-btn>
+			</div>
+		</form>
+	</q-page>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from "vuex"
 
 export default {
-  name: "Login",
+	name: "Login",
 
-  computed: {
-    ...mapGetters("auth", ["GET_userId"])
-  },
+	computed: {
+		...mapGetters("auth", ["GET_userId"])
+	},
 
-  methods: {
-    async login() {
-      try {
-        this.submitting = true;
-        let res = await this.$store.dispatch("auth/LOGIN", {
-          email: this.email,
-          password: this.password
-        });
-        console.log(res);
-        this.$store.dispatch("chat/SET_NOTIFICATION", {
-          message: `Welcome ${res.userEmail}`,
-          type: "success"
-        });
-      } catch (error) {
-        this.$store.dispatch("chat/SET_NOTIFICATION", {
-          message: error.message,
-          type: "error"
-        });
-      }
-      this.submitting = false;
-    }
-  },
+	methods: {
+		async login() {
+			try {
+				this.submitting = true
+				let res = await this.$store.dispatch("auth/LOGIN", {
+					email: this.email,
+					password: this.password
+				})
+				this.$store.dispatch("chat/SET_NOTIFICATION", {
+					message: `Welcome ${res.userEmail}`,
+					type: "success"
+				})
+				this.$router.push("join")
+			} catch (error) {
+				this.$store.dispatch("chat/SET_NOTIFICATION", {
+					message: error.message,
+					type: "error"
+				})
+			}
+			this.submitting = false
+		}
+	},
 
-  data() {
-    return {
-      email: "test@post.cmm",
-      password: "1234",
-      submitting: false
-    };
-  }
-};
+	data() {
+		return {
+			email: "test@post.cmm",
+			password: "1234",
+			submitting: false
+		}
+	}
+}
 </script>

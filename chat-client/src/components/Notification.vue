@@ -8,10 +8,6 @@
             <div class="text-weight-bold">{{ message }}</div>
             <!-- <div class="text-grey">Fitz & The Tantrums</div> -->
           </div>
-
-          <q-space />
-
-          <q-btn flat round icon="close" v-close-popup />
         </q-card-section>
       </q-card>
     </q-dialog>

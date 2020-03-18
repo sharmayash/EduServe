@@ -66,7 +66,10 @@ module.exports = function (ctx) {
         'QCard',
         'QCardSection',
         'QBtn',
-        'QSpinnerFacebook'
+        'QSpinnerFacebook',
+        'QTabPanels',
+        'QTabPanel',
+        'QOptionGroup'
       ],
 
       directives: [

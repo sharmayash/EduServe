@@ -15,7 +15,14 @@
 					Convo (EduServe)
 				</q-toolbar-title>
 
-				<div>Quasar v{{ $q.version }}</div>
+				<q-btn
+					v-if="GET_isAuthenticated"
+					flat
+					round
+					dense
+					icon="logout"
+					@click="logout"
+				/>
 			</q-toolbar>
 		</q-header>
 
@@ -51,13 +58,7 @@
 					/>
 				</q-toolbar-title>
 				<q-space />
-				<q-btn
-					flat
-					round
-					class="bg-teal"
-					icon="send"
-					@click="SEND_MSG(text)"
-				/>
+				<q-btn flat round class="bg-teal" icon="send" @click="SEND_MSG(text)" />
 			</q-toolbar>
 		</q-footer>
 	</q-layout>
@@ -83,7 +84,8 @@ export default {
 	},
 
 	computed: {
-		...mapGetters("chat", ["getNotification"])
+		...mapGetters("chat", ["getNotification"]),
+		...mapGetters("auth", ["GET_isAuthenticated"])
 	},
 
 	data() {
@@ -103,7 +105,15 @@ export default {
 	},
 
 	methods: {
-		...mapActions("chat", ["SEND_MSG"])
+		...mapActions("chat", ["SEND_MSG"]),
+		logout() {
+			this.$store.dispatch("auth/LOGOUT")
+			this.$store.dispatch("chat/SET_NOTIFICATION", {
+				message: "Logged Out",
+				type: "info"
+			})
+			this.$router.push("/login")
+		}
 	}
 }
 </script>

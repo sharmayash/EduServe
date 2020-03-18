@@ -30,9 +30,14 @@ export const LOGIN = ({ commit }, { email, password }) => {
     })
 }
 
+export const LOGOUT = ({ commit }) => {
+  localStorage.removeItem("token")
+  commit("MUTATE_LOGOUT")
+}
+
 export const LOAD_USER = ({ commit }) => {
   const token = localStorage.getItem('token')
-  if (!token) return null;
+  if (!token) return false;
   else {
     const requestBody = {
       query:
@@ -42,11 +47,12 @@ export const LOAD_USER = ({ commit }) => {
     }
 
     return axios.post('/graphql', requestBody)
-      .then(res => {
-        console.log(res);
+      .then(({ data }) => {
+        return data.data.isUserLoggedIn
       })
       .catch(e => {
         console.log(e);
+        return false
       })
   }
 }

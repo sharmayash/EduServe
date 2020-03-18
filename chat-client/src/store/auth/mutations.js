@@ -4,3 +4,11 @@ export const MUTATE_LOGIN = (state, payload) => {
     ...payload
   }
 }
+
+export const MUTATE_LOGOUT = (state, payload) => {
+  state.auth = {
+    token: null,
+    userId: null,
+    username: null
+  }
+}
