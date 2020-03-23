@@ -14,6 +14,7 @@ export default function () {
       show: false,
       message: "",
       type: "info"
-    }
+    },
+    room_name: null
   }
 }

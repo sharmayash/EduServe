@@ -8,6 +8,7 @@ export const LOGIN = ({ commit }, { email, password }) => {
             token
             userEmail
             userId
+            username
           }
         }
         `,

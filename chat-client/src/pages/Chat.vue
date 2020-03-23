@@ -31,6 +31,12 @@ export default {
 
 	data() {
 		return {}
+	},
+
+	mounted() {
+		this.$socket.on("newMsg", data => {
+			this.$store.dispatch("chat/NEW_MSG", data)
+		})
 	}
 }
 </script>

@@ -58,7 +58,13 @@
 					/>
 				</q-toolbar-title>
 				<q-space />
-				<q-btn flat round class="bg-teal" icon="send" @click="SEND_MSG(text)" />
+				<q-btn
+					flat
+					round
+					class="bg-teal"
+					icon="send"
+					@click="SEND_MSG({ text, userId: GET_userId })"
+				/>
 			</q-toolbar>
 		</q-footer>
 	</q-layout>
@@ -74,8 +80,7 @@ export default {
 	name: "MainLayout",
 
 	beforeUpdate() {
-		if (window.location.pathname !== "/chat") this.showFooter = false
-		else this.showFooter = true
+		this.showFooter = window.location.hash.includes("#/chat")
 	},
 
 	components: {
@@ -85,7 +90,7 @@ export default {
 
 	computed: {
 		...mapGetters("chat", ["getNotification"]),
-		...mapGetters("auth", ["GET_isAuthenticated"])
+		...mapGetters("auth", ["GET_isAuthenticated", "GET_userId"])
 	},
 
 	data() {

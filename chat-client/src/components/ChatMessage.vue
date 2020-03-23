@@ -3,7 +3,7 @@
 		<q-chat-message
 			:name="user"
 			:text="[text]"
-			:stamp="timestamp"
+			:stamp="formattedTimestamp"
 			:sent="sender.username === GET_username"
 			:bg-color="sender.username === GET_username ? 'teal-1' : 'primary'"
 			:text-color="sender.username === GET_username ? 'black' : 'white'"
@@ -12,11 +12,15 @@
 </template>
 <script>
 import { mapGetters } from "vuex"
+import {date} from 'quasar'
 
 export default {
 	name: "ChatMessage",
 	computed: {
-		...mapGetters("auth", ["GET_username"])
+		...mapGetters("auth", ["GET_username"]),
+    formattedTimestamp() {
+      return date.formatDate(this.timestamp, '⏲ HH:mm:ss 📆 DD-MM-YYYY')
+    }
 	},
 	props: {
 		text: {

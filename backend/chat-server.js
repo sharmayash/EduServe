@@ -5,7 +5,8 @@ const Chat = require('./models/Chat')
 const User = require('./models/User')
 
 module.exports = {
-  init(io = require('socket.io')() /* FOR INTELLISENSE */) {
+  init(io) {
+
     io.on('connection', socket => {
       console.log('New web socket connection!');
 
@@ -24,7 +25,7 @@ module.exports = {
       // WHEN SOCKET LEAVES
       socket.on('disconnect', () => {
         socket.broadcast.emit('notification', {
-          message: 'User left the User',
+          message: 'User left',
           type: "info"
         })
       })
@@ -45,7 +46,7 @@ module.exports = {
               path: 'sender', model: User, select: 'username -_id'
             }
           })
-            .select('chats members type -_id')
+            .select('chats members is_private -_id')
 
           if (!room) {
             callback('No such room or access denied')
@@ -88,11 +89,35 @@ module.exports = {
       // WHEN USER SENDS CHAT MESSAGE
       socket.on('sendMsg', async (data, callback) => {
         // 1. CREATE CHAT IN DB
-        // 2. BROADCAST EVENT TO EVERY OTHER SOCKET
-        const chat = Chat({
-          sender: data.user_id,
-          text: data.text
-        })
+        // 2. CREATE REF IN ROOM
+        // 3. BROADCAST EVENT TO EVERY OTHER SOCKET
+        try {
+          const chat = await Chat({
+            sender: data.userId,
+            text: data.text,
+            timestamp: data.timestamp
+          }).save()
+
+          await Room.findOneAndUpdate({
+            name: data.room_name,
+            $push: {
+              chats: chat._id
+            }
+          })
+
+          socket.to(data.room_name).broadcast.emit('newMsg', {
+            text: data.text,
+            timestamp: data.timestamp,
+            sender: data.user_id,
+            _id: timestamp
+          })
+
+          callback()
+        } catch (error) {
+          console.log(error);
+          callback('DB Error')
+        }
+
       })
     })
   }

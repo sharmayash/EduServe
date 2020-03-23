@@ -117,6 +117,9 @@ export default {
 						// data is chats from server
 						console.log(data)
 						this.$store.dispatch("chat/INIT_MSGS", data)
+						this.$store.dispatch("chat/SET_ROOM_NAME", {
+							room_name: this.room_name
+						})
 						this.$router.push({
 							path: "/chat",
 							query: { name: this.room_name }
@@ -139,6 +142,9 @@ export default {
 					if (error) {
 						alert(error)
 					} else {
+						this.$store.dispatch("chat/SET_ROOM_NAME", {
+							room_name: this.room_name
+						})
 						this.$router.push({
 							path: "/chat",
 							query: { name: this.room_name }

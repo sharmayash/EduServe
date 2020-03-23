@@ -33,7 +33,8 @@ const routes = [
         component: () => import('pages/Join.vue'),
         beforeEnter: routeGuard
       },
-    ]
+    ],
+    beforeMount: routeGuard,
   }
 ]
 
