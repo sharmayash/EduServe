@@ -4,7 +4,8 @@ const generateAuthToken = user => {
   let token = jwt.sign(
     {
       userId: user.id,
-      userEmail: user.email
+      userEmail: user.email,
+      username: user.username
     },
     process.env.SECRET_KEY,
     {

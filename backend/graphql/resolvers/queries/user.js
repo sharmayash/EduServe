@@ -55,29 +55,22 @@ module.exports = {
       .catch(console.error)
   },
 
-  async isUserLoggedIn(_, args, {req}) {
-    console.log(req.isAuth);
-    if (!req.isAuth) return false // For private routes
-
-    const user = await User.findById(req.userId)
-    if (user) return true
-    else return false
-  },
-  // TODO: MAKE A SINGLE QUERY FOR ABOVE QUERY AND BELOW QUERY
-  getUserInfo: async (_, args, req) => {
+  loadUser: async (_, args, { req }) => {
     if (!req.isAuth) throw new Error("Not Authorized") // For private routes
 
-    const user = await User.findById({ id: req.userId })
-    const { _id, name, email, createdAt, updatedAt } = user
-
-    if (user)
+    const token = req.get('Authorization').split(" ")[1]
+    const { userEmail, userId, username } = req
+    try {
       return {
-        _id,
-        name,
-        email,
-        createdAt,
-        updatedAt
+        token,
+        tokenExpiration: 1,
+        userEmail,
+        username,
+        userId
       }
+    } catch (error) {
+      return error
+    }
   },
 
 }

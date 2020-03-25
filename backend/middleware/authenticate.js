@@ -36,6 +36,7 @@ var authenticate = (req, res, next) => {
   req.isAuth = true
   req.userId = decoded.userId
   req.userEmail = decoded.userEmail
+  req.username = decoded.username
   next()
 }
 
