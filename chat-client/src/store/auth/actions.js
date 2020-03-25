@@ -36,24 +36,23 @@ export const LOGOUT = ({ commit }) => {
   commit("MUTATE_LOGOUT")
 }
 
-export const LOAD_USER = ({ commit }) => {
-  const token = localStorage.getItem('token')
-  if (!token) return false;
-  else {
-    const requestBody = {
-      query:
-        `query isUserLoggedIn {
-           isUserLoggedIn
-         }`
-    }
-
-    return axios.post('/graphql', requestBody)
-      .then(({ data }) => {
-        return data.data.isUserLoggedIn
-      })
-      .catch(e => {
-        console.log(e);
-        return false
-      })
+export const LOAD_USER = async ({ commit }) => {
+  const requestBody = {
+    query: `
+      query	{
+        loadUser{
+          token
+          username
+          userId
+          userEmail
+        }
+      }
+    `
+  }
+  try {
+    const res = await axios.post('/graphql', requestBody)
+    commit("MUTATE_LOAD_USER", res.data.data.loadUser)
+  } catch (error) {
+    commit("MUTATE_LOGOUT")
   }
 }

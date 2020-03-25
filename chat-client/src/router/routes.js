@@ -17,24 +17,33 @@ const routeGuard = async (to, from, next) => {
 const routes = [
   {
     path: '/',
+    name: 'index',
+    beforeEnter: (to, from, next) => {
+      next('/join')
+    }
+  },
+  {
+    path: '/app',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       {
         path: '/chat',
+        name: 'chat',
         component: () => import('pages/Chat.vue'),
         // beforeEnter: routeGuard
       },
       {
         path: '/login',
+        name: 'login',
         component: () => import('pages/Login.vue')
       },
       {
         path: '/join',
+        name: 'join',
         component: () => import('pages/Join.vue'),
         beforeEnter: routeGuard
       },
-    ],
-    beforeMount: routeGuard,
+    ]
   }
 ]
 

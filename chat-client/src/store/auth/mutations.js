@@ -12,3 +12,9 @@ export const MUTATE_LOGOUT = (state, payload) => {
     username: null
   }
 }
+
+export const MUTATE_LOAD_USER = (state, payload) => {
+  state.auth = {
+    ...payload
+  }
+}
