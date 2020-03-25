@@ -16,6 +16,15 @@
 				</q-toolbar-title>
 
 				<q-btn
+					flat
+					round
+					dense
+					color="teal"
+					:icon="!isDarkMode ? 'fas fa-moon' : 'fas fa-sun'"
+					@click="toggleTheme"
+				/>
+
+				<q-btn
 					v-if="GET_isAuthenticated"
 					flat
 					round
@@ -90,7 +99,10 @@ export default {
 
 	computed: {
 		...mapGetters("chat", ["getNotification"]),
-		...mapGetters("auth", ["GET_isAuthenticated", "GET_userId"])
+		...mapGetters("auth", ["GET_isAuthenticated", "GET_userId"]),
+		isDarkMode() {
+			return this.$q.dark.isActive
+		}
 	},
 
 	data() {
@@ -118,6 +130,9 @@ export default {
 				type: "info"
 			})
 			this.$router.push("/login")
+		},
+		toggleTheme() {
+			this.$q.dark.toggle()
 		}
 	}
 }
