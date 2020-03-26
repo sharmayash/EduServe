@@ -10,17 +10,17 @@ module.exports = {
     io.on('connection', socket => {
       console.log('New web socket connection!');
 
-      // WHEN THIS SOCKET CONNECTS
-      socket.emit('notification', {
-        message: 'Welcome',
-        type: 'info'
-      })
+      // // WHEN THIS SOCKET CONNECTS
+      // socket.emit('notification', {
+      //   message: 'Welcome',
+      //   type: 'info'
+      // })
 
-      // WHEN OTHER SOCKET CONNECTS
-      socket.broadcast.emit('notification', {
-        message: 'User Joined!',
-        type: 'info'
-      })
+      // // WHEN OTHER SOCKET CONNECTS
+      // socket.broadcast.emit('notification', {
+      //   message: 'User Joined!',
+      //   type: 'info'
+      // })
 
       // WHEN SOCKET LEAVES
       socket.on('disconnect', () => {
@@ -58,12 +58,22 @@ module.exports = {
             })
 
             if (!isMember) callback('Private room')
-
-            socket.join('' + room.name, (err) => {
-              if (err) callback(err)
-              callback(null, room.chats)
-            })
           }
+
+          socket.join(room.name, (err) => {
+            if (err) callback(err)
+          })
+
+          // io.to(room.name).emit('notification', {
+          //   message: 'Welcome',
+          //   type: 'info'
+          // })
+
+          socket.broadcast.to(room.name).emit('notification', {
+            message: `${data.username} Joined!`,
+            type: 'info'
+          })
+
           callback(null, room.chats)
         }
         catch (err) {
