@@ -52,7 +52,9 @@ export const LOAD_USER = async ({ commit }) => {
   try {
     const res = await axios.post('/graphql', requestBody)
     commit("MUTATE_LOAD_USER", res.data.data.loadUser)
+    return true
   } catch (error) {
     commit("MUTATE_LOGOUT")
+    return false
   }
 }

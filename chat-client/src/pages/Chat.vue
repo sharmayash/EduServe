@@ -35,7 +35,16 @@ export default {
 
 	mounted() {
 		this.$socket.on("newMsg", data => {
-			this.$store.dispatch("chat/NEW_MSG", data)
+      console.log('msg aaya');
+			this.$store.dispatch("chat/SET_NEW_MSG", data)
+		})
+
+    // THIS WILL HANDLE ALL NOTIFICATION SENT FROM CHAT SERVER
+		this.$socket.on("notification", data => {
+			this.$q.notify({
+				message: data.message,
+				type: data.type
+			})
 		})
 	}
 }

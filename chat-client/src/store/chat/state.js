@@ -10,11 +10,6 @@ export default function () {
       // id: "1"
       // },
     ],
-    notification: {
-      show: false,
-      message: "",
-      type: "info"
-    },
     room_name: null
   }
 }

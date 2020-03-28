@@ -1,13 +1,14 @@
 import Store from '../store';
+import { Notify } from 'quasar'
 
 const store = Store()
 
 const routeGuard = async (to, from, next) => {
   const isLoggedIn = await store.dispatch("auth/LOAD_USER")
   if (!isLoggedIn) {
-    store.dispatch("chat/SET_NOTIFICATION", {
-      message: "Session expired",
-      type: "info"
+    Notify.create({
+      message: 'Session Expired',
+      type: 'warning'
     })
     next('/login')
   }

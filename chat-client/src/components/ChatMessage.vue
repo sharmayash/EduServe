@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<q-chat-message
-			:name="user"
+			:name="sender.username"
 			:text="[text]"
 			:stamp="formattedTimestamp"
 			:sent="sender.username === GET_username"

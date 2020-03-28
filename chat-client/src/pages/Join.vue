@@ -95,7 +95,7 @@ export default {
 	name: "Join",
 
 	computed: {
-		...mapGetters("auth", ["GET_userId"])
+		...mapGetters("auth", ["GET_userId", "GET_username"])
 	},
 
 	methods: {
@@ -105,7 +105,8 @@ export default {
 				"join",
 				{
 					room_name: this.room_name,
-					user_id: this.GET_userId
+					user_id: this.GET_userId,
+          username: this.GET_username
 				},
 				(error, data = null) => {
 					if (error) {
@@ -115,7 +116,6 @@ export default {
 						this.submitting = false
 
 						// data is chats from server
-						console.log(data)
 						this.$store.dispatch("chat/INIT_MSGS", data)
 						this.$store.dispatch("chat/SET_ROOM_NAME", {
 							room_name: this.room_name

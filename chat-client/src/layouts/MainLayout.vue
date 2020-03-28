@@ -46,11 +46,6 @@
 			</q-list>
 		</q-drawer>
 
-		<notification
-			:message="getNotification.message"
-			:type="getNotification.type"
-		/>
-
 		<q-page-container>
 			<router-view />
 		</q-page-container>
@@ -72,7 +67,7 @@
 					round
 					class="bg-teal"
 					icon="send"
-					@click="SEND_MSG({ text, userId: GET_userId })"
+					@click="sendMsg({ text, userId: GET_userId })"
 				/>
 			</q-toolbar>
 		</q-footer>
@@ -81,7 +76,6 @@
 
 <script>
 import EssentialLink from "components/EssentialLink"
-import Notification from "components/Notification"
 
 import { mapActions, mapGetters } from "vuex"
 
@@ -93,13 +87,12 @@ export default {
 	},
 
 	components: {
-		EssentialLink,
-		Notification
+		EssentialLink
 	},
 
 	computed: {
-		...mapGetters("chat", ["getNotification"]),
 		...mapGetters("auth", ["GET_isAuthenticated", "GET_userId"]),
+		...mapGetters("chat", ["GET_room_name"]),
 		isDarkMode() {
 			return this.$q.dark.isActive
 		}
@@ -122,12 +115,22 @@ export default {
 	},
 
 	methods: {
-		...mapActions("chat", ["SEND_MSG"]),
+		sendMsg(payload) {
+			const { text, userId } = payload
+			const timestamp = new Date().toISOString()
+			const data = {
+				text,
+				userId,
+				timestamp,
+				room_name: this.GET_room_name
+			}
+			this.$socket.emit("sendMsg", data)
+		},
 		logout() {
 			this.$store.dispatch("auth/LOGOUT")
-			this.$store.dispatch("chat/SET_NOTIFICATION", {
+			this.$q.notify({
 				message: "Logged Out",
-				type: "info"
+				type: "warning"
 			})
 			this.$router.push("/login")
 		},

@@ -52,17 +52,14 @@ export default {
 					email: this.email,
 					password: this.password
 				})
-				this.$store.dispatch("chat/SET_NOTIFICATION", {
-					message: `Welcome ${res.userEmail}`,
-					type: "success"
+				this.$q.notify({
+					message: `Welcome ${res.username}`,
+					color: "purple"
 				})
 				this.$router.push("join")
 			} catch (error) {
-				this.$store.dispatch("chat/SET_NOTIFICATION", {
-					message: error.message,
-					type: "error"
-				})
-			}
+        console.log(error);
+      }
 			this.submitting = false
 		}
 	},

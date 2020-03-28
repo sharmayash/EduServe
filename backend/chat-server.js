@@ -10,18 +10,6 @@ module.exports = {
     io.on('connection', socket => {
       console.log('New web socket connection!');
 
-      // // WHEN THIS SOCKET CONNECTS
-      // socket.emit('notification', {
-      //   message: 'Welcome',
-      //   type: 'info'
-      // })
-
-      // // WHEN OTHER SOCKET CONNECTS
-      // socket.broadcast.emit('notification', {
-      //   message: 'User Joined!',
-      //   type: 'info'
-      // })
-
       // WHEN SOCKET LEAVES
       socket.on('disconnect', () => {
         socket.broadcast.emit('notification', {
@@ -46,7 +34,7 @@ module.exports = {
               path: 'sender', model: User, select: 'username -_id'
             }
           })
-            .select('chats members is_private -_id')
+            .select('name chats members is_private -_id')
 
           if (!room) {
             callback('No such room or access denied')
@@ -63,6 +51,7 @@ module.exports = {
           socket.join(room.name, (err) => {
             if (err) callback(err)
           })
+
 
           // io.to(room.name).emit('notification', {
           //   message: 'Welcome',
@@ -97,7 +86,7 @@ module.exports = {
       })
 
       // WHEN USER SENDS CHAT MESSAGE
-      socket.on('sendMsg', async (data, callback) => {
+      socket.on('sendMsg', async (data, ) => {
         // 1. CREATE CHAT IN DB
         // 2. CREATE REF IN ROOM
         // 3. BROADCAST EVENT TO EVERY OTHER SOCKET
@@ -115,19 +104,15 @@ module.exports = {
             }
           })
 
-          socket.to(data.room_name).broadcast.emit('newMsg', {
+          socket.broadcast.to(data.room_name).emit('newMsg', {
             text: data.text,
             timestamp: data.timestamp,
             sender: data.user_id,
-            _id: timestamp
+            _id: data.timestamp
           })
-
-          callback()
         } catch (error) {
           console.log(error);
-          callback('DB Error')
         }
-
       })
     })
   }
