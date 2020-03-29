@@ -67,7 +67,7 @@
 					round
 					class="bg-teal"
 					icon="send"
-					@click="sendMsg({ text, userId: GET_userId })"
+					@click="sendMsg({ text, user_id: GET_userId })"
 				/>
 			</q-toolbar>
 		</q-footer>
@@ -78,6 +78,7 @@
 import EssentialLink from "components/EssentialLink"
 
 import { mapActions, mapGetters } from "vuex"
+import { GET_username } from '../store/auth/getters'
 
 export default {
 	name: "MainLayout",
@@ -91,7 +92,7 @@ export default {
 	},
 
 	computed: {
-		...mapGetters("auth", ["GET_isAuthenticated", "GET_userId"]),
+		...mapGetters("auth", ["GET_isAuthenticated", "GET_userId", "GET_username"]),
 		...mapGetters("chat", ["GET_room_name"]),
 		isDarkMode() {
 			return this.$q.dark.isActive
@@ -116,13 +117,14 @@ export default {
 
 	methods: {
 		sendMsg(payload) {
-			const { text, userId } = payload
+			const { text, user_id } = payload
 			const timestamp = new Date().toISOString()
 			const data = {
 				text,
-				userId,
+				user_id,
 				timestamp,
-				room_name: this.GET_room_name
+				room_name: this.GET_room_name,
+				username: this.GET_username
 			}
 			this.$socket.emit("sendMsg", data)
 		},

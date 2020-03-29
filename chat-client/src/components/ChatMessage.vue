@@ -17,7 +17,7 @@ import {date} from 'quasar'
 export default {
 	name: "ChatMessage",
 	computed: {
-		...mapGetters("auth", ["GET_username"]),
+	...mapGetters("auth", ["GET_username"]),
     formattedTimestamp() {
       return date.formatDate(this.timestamp, '⏲ HH:mm:ss 📆 DD-MM-YYYY')
     }
@@ -31,7 +31,7 @@ export default {
 			type: String,
 			required: true
 		},
-		sender: {
+		sender: {    	 	
 			type: Object,
 			required: true
 		},

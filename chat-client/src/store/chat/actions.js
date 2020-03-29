@@ -1,6 +1,7 @@
 // import socket from 'boot/socket'
 
 export const SET_NEW_MSG = ({commit}, payload) => {
+  console.log('actions');
   commit("MUTATE_PUSH_MSG", payload)
 }
 
