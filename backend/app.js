@@ -19,6 +19,7 @@ const resolvers = require("./graphql/resolvers/index")
 const app = express()
 
 const whitelist = [
+  'http://localhost:8080',
   'http://localhost:8081',
   'http://localhost:1234',
   'http://localhost:4000'
