@@ -2,12 +2,12 @@
 	<q-page>
 		<form @submit.prevent="login" class="q-pa-md">
 			<div class="row justify-center q-ma-md">
-				<div class="col-3">
+				<div class="col-auto">
 					<q-input filled v-model="email" label="Email" color="teal" />
 				</div>
 			</div>
 			<div class="row justify-center q-ma-md">
-				<div class="col-3">
+				<div class="col-auto">
 					<q-input
 						filled
 						v-model="password"

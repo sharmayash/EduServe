@@ -20,7 +20,7 @@
 			>
 				<q-tab-panel name="join">
 					<div class="row justify-center">
-						<div class="col-3">
+						<div class="col-auto">
 							<q-input
 								filled
 								v-model="room_name"
@@ -48,7 +48,7 @@
 
 				<q-tab-panel name="create">
 					<div class="row justify-center">
-						<div class="col-3">
+						<div class="col-auto">
 							<q-input
 								filled
 								v-model="room_name"

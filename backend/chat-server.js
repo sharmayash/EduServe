@@ -112,6 +112,7 @@ module.exports = {
 						}
 					})
 
+          // TODO: SENDER KA KUCH KRNA PADHEGA
 					io.to(data.room_name).emit("newMsg", {
 						text: data.text,
 						timestamp: data.timestamp,

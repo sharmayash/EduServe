@@ -12,7 +12,7 @@
 				/>
 
 				<q-toolbar-title>
-					Convo (EduServe)
+					Convo
 				</q-toolbar-title>
 
 				<q-btn
