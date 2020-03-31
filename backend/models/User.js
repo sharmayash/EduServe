@@ -1,6 +1,8 @@
 const mongoose = require("mongoose")
 const { compareSync } = require('bcryptjs')
 
+var ObjectId = (id) => mongoose.Types.ObjectId(id);
+
 const UserSchema = new mongoose.Schema(
   {
     username: {
@@ -27,7 +29,11 @@ const UserSchema = new mongoose.Schema(
     googleLogin: {
       type: Boolean,
       default: false
-    }
+    },
+    rooms:[{
+      type: ObjectId,
+      ref: "room"
+    }]
   },
   {
     timestamps: true

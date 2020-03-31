@@ -10,10 +10,14 @@ module.exports = {
 			console.log("New web socket connection!")
 
 			// WHEN SOCKET LEAVES
-			socket.on("disconnect", () => {
-				socket.broadcast.emit("notification", {
-					message: "User left",
-					type: "info"
+			socket.on("leaveRoom", (data, callback) => {
+				const { room_name, username } = data
+
+				socket.broadcast.to(room_name).emit("userLeft", { username })
+
+				socket.leave(room_name, err => {
+					if (err) callback(err)
+					callback(null)
 				})
 			})
 
@@ -62,11 +66,6 @@ module.exports = {
 						if (err) callback(err)
 					})
 
-					// io.to(room.name).emit('notification', {
-					//   message: 'Welcome',
-					//   type: 'info'
-					// })
-
 					socket.broadcast.to(room.name).emit("notification", {
 						message: `${data.username} Joined!`,
 						type: "info"
@@ -87,7 +86,13 @@ module.exports = {
 					members: [mongoose.Types.ObjectId(user_id)]
 				})
 				room.save()
-				socket.join("" + room_name, err => {
+
+				await User.findOneAndUpdate({
+					_id: user_id,
+					$push: { rooms: room._id }
+				})
+
+				socket.join(room_name, err => {
 					if (err) callback(err)
 					callback(null)
 				})
@@ -112,7 +117,7 @@ module.exports = {
 						}
 					})
 
-          // TODO: SENDER KA KUCH KRNA PADHEGA
+					// TODO: SENDER KA KUCH KRNA PADHEGA
 					io.to(data.room_name).emit("newMsg", {
 						text: data.text,
 						timestamp: data.timestamp,

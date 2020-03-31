@@ -54,12 +54,13 @@ import { mapGetters } from "vuex"
 
 export default {
 	computed: {
-		...mapGetters("auth", ["GET_isAuthenticated"])
+		...mapGetters("auth", ["GET_isAuthenticated", "GET_username"]),
+		...mapGetters("chat", ["GET_room_name"])
 	},
 	data() {
 		return {
-            leftDrawerOpen: false,
-            essentialLinks: []
+			leftDrawerOpen: false,
+			essentialLinks: []
 		}
 	},
 	methods: {
@@ -67,16 +68,33 @@ export default {
 			this.$q.dark.toggle()
 		},
 		logout() {
+			this.$socket.emit(
+				"leaveRoom",
+				{
+					room_name: this.GET_room_name,
+					username: this.GET_username
+				},
+				error => {
+					if (error) {
+						this.$notify({
+							message: error,
+							type: "error"
+						})
+						return
+					}
+				}
+			)
 			this.$store.dispatch("auth/LOGOUT")
+			this.$store.dispatch("chat/CLEAR_MSGS")
 			this.$q.notify({
 				message: "Logged Out",
 				type: "warning"
 			})
 			this.$router.push("/login")
 		}
-    },
-    components:{
-        EssentialLink
-    }
+	},
+	components: {
+		EssentialLink
+	}
 }
 </script>

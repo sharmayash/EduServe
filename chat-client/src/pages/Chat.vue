@@ -34,9 +34,16 @@ export default {
 	},
 
 	mounted() {
+		// WHEN A USER LEAVES THE CHAT
+		this.$socket.on("userLeft", data => {
+			this.$q.notify({
+				message: `${data.username} left the chat`,
+				type: "info"
+			})
+		})
+
+		// WHEN NEW MESSAGE IS RECEIVED
 		this.$socket.on("newMsg", data => {
-			console.log("msg aaya")
-			console.log(data);
 			this.$store.dispatch("chat/SET_NEW_MSG", data)
 		})
 

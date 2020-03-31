@@ -1,6 +1,6 @@
 <template>
 	<q-layout view="lHh Lpr lFf">
-		<Header :leftDrawerOpen="leftDrawerOpen" />
+		<Header/>
 
 		<q-page-container>
 			<router-view />
@@ -73,6 +73,7 @@ export default {
 				username: this.GET_username
 			}
 			this.$socket.emit("sendMsg", data)
+			this.text = ""
 		}
 	}
 }

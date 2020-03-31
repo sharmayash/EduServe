@@ -16,3 +16,7 @@ export const SET_ROOM_NAME = ({ commit }, payload) => {
 export const NEW_MSG = ({ commit }, payload) => {
   commit("MUTATE_SET_MSG", payload)
 }
+
+export const CLEAR_MSGS = ({ commit }) => {
+  commit("MUTATE_CLEAR_MSGS")
+}

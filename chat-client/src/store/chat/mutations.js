@@ -8,6 +8,10 @@ export const MUTATE_SET_MSG = (state, payload) => {
   state.messages = payload
 }
 
+export const MUTATE_CLEAR_MSGS = (state) => {
+  state.messages = []
+}
+
 export const MUTATE_ROOM_NAME = (state, payload) => {
   state.room_name = payload.room_name
 }
