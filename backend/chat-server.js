@@ -7,19 +7,23 @@ const User = require("./models/User")
 module.exports = {
 	init(io) {
 		io.on("connection", socket => {
-			console.log("New web socket connection!")
+			console.log("New web socket connection! " + socket.id)
 
-			// WHEN SOCKET LEAVES
-			socket.on("leaveRoom", (data, callback) => {
-				const { room_name, username } = data
-
-				socket.broadcast.to(room_name).emit("userLeft", { username })
-
-				socket.leave(room_name, err => {
-					if (err) callback(err)
-					callback(null)
-				})
+			socket.on("test", () => {
+				console.log(3144);
 			})
+
+			// WHEN USER LOGOUTS
+			socket.on("logout", data => {
+				const { room_name, username } = data
+				socket.broadcast.to(room_name).emit("userLeft", { username })
+				socket.disconnect(true)
+			})
+
+			// socket.leave(room_name, err => {
+			// 	if (err) callback(err)
+			// 	callback(null)
+			// })
 
 			// WHEN USER WANTS TO JOIN
 			socket.on("join", async (data, callback) => {
@@ -103,6 +107,13 @@ module.exports = {
 				// 1. CREATE CHAT IN DB
 				// 2. CREATE REF IN ROOM
 				// 3. BROADCAST EVENT TO EVERY OTHER SOCKET
+				io.of("/")
+					.in(data.room_name)
+					.clients(function(error, clients) {
+						console.log("//#endregion")
+						console.log(clients)
+						// var numClients=clients.length;
+					})
 				try {
 					const chat = await Chat({
 						sender: data.user_id,

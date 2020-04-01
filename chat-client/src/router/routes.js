@@ -31,9 +31,9 @@ const routes = [
 				path: "/chat",
 				name: "chat",
 				component: () => import("pages/Chat.vue"),
-				beforeEnter: (to, from, next) => {
-					store.getters["auth/GET_username"] ? next() : next("/join")
-				}
+				// beforeEnter: (to, from, next) => {
+				// 	store.getters["auth/GET_username"] ? next() : next("/join")
+				// }
 			},
 			{
 				path: "/login",

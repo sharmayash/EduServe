@@ -68,22 +68,10 @@ export default {
 			this.$q.dark.toggle()
 		},
 		logout() {
-			this.$socket.emit(
-				"leaveRoom",
-				{
-					room_name: this.GET_room_name,
-					username: this.GET_username
-				},
-				error => {
-					if (error) {
-						this.$notify({
-							message: error,
-							type: "error"
-						})
-						return
-					}
-				}
-			)
+			this.$socket.emit("logout", {
+				username: this.GET_username,
+				room_name: this.GET_room_name
+			})
 			this.$store.dispatch("auth/LOGOUT")
 			this.$store.dispatch("chat/CLEAR_MSGS")
 			this.$q.notify({

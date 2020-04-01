@@ -74,7 +74,8 @@ module.exports = function (ctx) {
         'QTabPanels',
         'QTabPanel',
         'QOptionGroup',
-        'QToggle'
+        'QToggle',
+        'QSpinnerPuff'
       ],
 
       directives: [
