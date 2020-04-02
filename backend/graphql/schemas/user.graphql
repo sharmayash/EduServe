@@ -3,7 +3,7 @@
 # -----------------------------------------------
 
 extend type Query {
-  loginUser(email: String!, password: String!): AuthData!
+  loginUser(credentials: String!, password: String!): AuthData!
   googleSignIn(id_token: String!): AuthData!
   loadUser: AuthData!
 }
