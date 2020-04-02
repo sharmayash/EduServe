@@ -4,7 +4,12 @@
 			<form @submit.prevent="login" class="q-pa-md">
 				<div class="row justify-center q-ma-md">
 					<div class="col-auto">
-						<q-input filled v-model="email" label="Email" color="teal" />
+						<q-input
+							filled
+							v-model="credentials"
+							label="Username or Email"
+							color="teal"
+						/>
 					</div>
 				</div>
 				<div class="row justify-center q-ma-md">
@@ -52,7 +57,6 @@ export default {
 
 	mounted() {
 		this.connChecker
-		
 	},
 
 	methods: {
@@ -64,7 +68,7 @@ export default {
 			try {
 				this.submitting = true
 				let res = await this.$store.dispatch("auth/LOGIN", {
-					email: this.email,
+					credentials: this.credentials,
 					password: this.password
 				})
 				this.$q.notify({
@@ -81,7 +85,7 @@ export default {
 
 	data() {
 		return {
-			email: "test@post.cmm",
+			credentials: "test@post.cmm",
 			password: "1234",
 			submitting: false,
 			isSocketConnected: false,

@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-export const LOGIN = ({ commit }, { email, password }) => {
+export const LOGIN = ({ commit }, { credentials, password }) => {
   const requestBody = {
     query: `
         query{
-          loginUser(email: "${email}", password: "${password}"){
+          loginUser(credentials: "${credentials}", password: "${password}"){
             token
             userEmail
             userId
