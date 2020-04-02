@@ -78,6 +78,7 @@ export default {
 				message: "Logged Out",
 				type: "warning"
 			})
+			this.$socket.removeAllListeners()
 			this.$router.push("/login")
 		}
 	},
