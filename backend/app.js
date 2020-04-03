@@ -22,7 +22,8 @@ const whitelist = [
   'http://localhost:8080',
   'http://localhost:8081',
   'http://localhost:1234',
-  'http://localhost:4000'
+  'http://localhost:4000',
+  'http://192.168.1.7:8080',
 ];
 
 const corsOptions = {

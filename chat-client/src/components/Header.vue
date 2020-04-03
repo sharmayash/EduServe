@@ -6,6 +6,7 @@
 					flat
 					dense
 					round
+					v-if="GET_isAuthenticated && GET_username"
 					@click="leftDrawerOpen = !leftDrawerOpen"
 					v-bind:icon="leftDrawerOpen ? 'close' : 'menu'"
 					aria-label="Menu"
@@ -25,7 +26,7 @@
 				/>
 
 				<q-btn
-					v-if="GET_isAuthenticated"
+					v-if="GET_isAuthenticated && GET_username"
 					flat
 					round
 					dense
@@ -35,21 +36,14 @@
 			</q-toolbar>
 		</q-header>
 
-		<q-drawer v-model="leftDrawerOpen" bordered content-class="bg-grey-1">
-			<q-list>
-				<q-item-label header class="text-grey-8">Essential Links</q-item-label>
-				<EssentialLink
-					v-for="link in essentialLinks"
-					:key="link.title"
-					v-bind="link"
-				/>
-			</q-list>
-		</q-drawer>
+		<div v-if="GET_isAuthenticated && GET_username">
+			<room-drawer :open="leftDrawerOpen" />
+		</div>
 	</div>
 </template>
 
 <script>
-import EssentialLink from "components/EssentialLink"
+import RoomDrawer from "components/RoomDrawer"
 import { mapGetters } from "vuex"
 
 export default {
@@ -59,8 +53,7 @@ export default {
 	},
 	data() {
 		return {
-			leftDrawerOpen: false,
-			essentialLinks: []
+			leftDrawerOpen: true
 		}
 	},
 	methods: {
@@ -83,7 +76,7 @@ export default {
 		}
 	},
 	components: {
-		EssentialLink
+		RoomDrawer
 	}
 }
 </script>

@@ -85,7 +85,7 @@ export default {
 
 	data() {
 		return {
-			credentials: "test@post.cmm",
+			credentials: "postman",
 			password: "1234",
 			submitting: false,
 			isSocketConnected: false,
