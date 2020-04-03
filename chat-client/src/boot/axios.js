@@ -8,6 +8,6 @@ axios.interceptors.request.use(config => {
   return config
 })
 
-axios.defaults.baseURL = process.env.VUE_APP_BACKEND_URL || "http://localhost:4000"
+axios.defaults.baseURL = process.env.API_URL || "http://localhost:4000"
 
 Vue.prototype.$axios = axios
