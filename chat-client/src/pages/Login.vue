@@ -78,6 +78,10 @@ export default {
 				this.$router.push("join")
 			} catch (error) {
 				console.log(error)
+				this.$q.notify({
+					message: error,
+					type: "negative"
+				})
 			}
 			this.submitting = false
 		}
