@@ -6,15 +6,15 @@ const User = require("./models/User")
 
 module.exports = {
 	init(io) {
-		io.on("connection", socket => {
+		io.on("connection", (socket) => {
 			console.log("New web socket connection! " + socket.id)
 
 			socket.on("test", () => {
-				console.log(3144);
+				console.log(3144)
 			})
 
 			// WHEN USER LOGOUTS
-			socket.on("logout", data => {
+			socket.on("logout", (data) => {
 				const { room_name, username } = data
 				socket.broadcast.to(room_name).emit("userLeft", { username })
 				socket.disconnect(true)
@@ -31,7 +31,7 @@ module.exports = {
 				// 2. CHECK THE TYPE PUBLIC | PRIVATE
 				try {
 					const room = await Room.findOne({
-						name: data.room_name
+						name: data.room_name,
 					})
 						.populate({
 							path: "chats",
@@ -41,8 +41,8 @@ module.exports = {
 							populate: {
 								path: "sender",
 								model: User,
-								select: "username -_id"
-							}
+								select: "username -_id",
+							},
 						})
 						.select("name chats members is_private -_id")
 
@@ -51,28 +51,28 @@ module.exports = {
 					}
 
 					const isMember =
-						room.members.filter(user_id => data.user_id === user_id).length ===
-						1
+						room.members.filter((user_id) => data.user_id === user_id)
+							.length === 1
 
 					if (room.is_private) {
 						if (!isMember) callback("Private room")
 					} else {
 						if (!isMember) {
+							// TODO
 							// THE ROOM IS PUBLIC ==> ADD TO MEMBERS LIST IF NOT
-							room.update(
-								{ _id: room._id },
-								{ $push: { members: data.user_id } }
-							)
+							console.log(444)
+							// room.update({ $push: { members: data.user_id } })
+							// room.save()
 						}
 					}
 
-					socket.join(room.name, err => {
+					socket.join(room.name, (err) => {
 						if (err) callback(err)
 					})
 
 					socket.broadcast.to(room.name).emit("notification", {
 						message: `${data.username} Joined!`,
-						type: "info"
+						type: "info",
 					})
 
 					callback(null, room.chats)
@@ -87,58 +87,61 @@ module.exports = {
 				const room = new Room({
 					is_private,
 					name: room_name,
-					members: [mongoose.Types.ObjectId(user_id)]
+					members: [mongoose.Types.ObjectId(user_id)],
 				})
 				room.save()
 
 				await User.findOneAndUpdate({
 					_id: user_id,
-					$push: { rooms: room._id }
+					$push: { rooms: room._id },
 				})
 
-				socket.join(room_name, err => {
+				socket.join(room_name, (err) => {
 					if (err) callback(err)
 					callback(null)
 				})
 			})
 
 			// WHEN USER SENDS CHAT MESSAGE
-			socket.on("sendMsg", async data => {
+			socket.on("sendMsg", async (data) => {
 				// 1. CREATE CHAT IN DB
 				// 2. CREATE REF IN ROOM
 				// 3. BROADCAST EVENT TO EVERY OTHER SOCKET
-				io.of("/")
-					.in(data.room_name)
-					.clients(function(error, clients) {
-						console.log("//#endregion")
-						console.log(clients)
-						// var numClients=clients.length;
-					})
+				console.log(123)
+				// io.of("/")
+				// 	.in(data.room_name)
+				// 	.clients(function(error, clients) {
+				// 		console.log("//#endregion")
+				// 		console.log(clients)
+				// 		// var numClients=clients.length;
+				// 	})
 				try {
 					const chat = await Chat({
 						sender: data.user_id,
 						text: data.text,
-						timestamp: data.timestamp
+						timestamp: data.timestamp,
 					}).save()
 
-					await Room.findOneAndUpdate({
-						name: data.room_name,
-						$push: {
-							chats: chat._id
+					await Room.findOneAndUpdate(
+						{ name: data.room_name },
+						{
+							$push: {
+								chats: chat._id,
+							},
 						}
-					})
+					)
 
 					// TODO: SENDER KA KUCH KRNA PADHEGA
 					io.to(data.room_name).emit("newMsg", {
 						text: data.text,
 						timestamp: data.timestamp,
 						sender: { username: data.username },
-						_id: data.timestamp
+						_id: data.timestamp,
 					})
 				} catch (error) {
 					console.log(error)
 				}
 			})
 		})
-	}
+	},
 }

@@ -26,7 +26,7 @@
 				/>
 
 				<q-btn
-					v-if="GET_isAuthenticated && GET_username"
+					v-if="GET_isAuthenticated"
 					flat
 					round
 					dense

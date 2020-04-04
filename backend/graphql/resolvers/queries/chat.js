@@ -10,7 +10,6 @@ module.exports = {
 				select: "name _id"
 			})
 
-			console.log(user.rooms)
       return user.rooms
       
 		} catch (e) {

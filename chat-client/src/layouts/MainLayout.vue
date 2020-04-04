@@ -8,8 +8,7 @@
 
 		<q-footer elevated v-show="showFooter">
 			<q-toolbar>
-				<q-space />
-				<q-toolbar-title class="q-ml-lg">
+				<q-toolbar-title>
 					<q-input
 						standout=""
 						filled
@@ -17,7 +16,6 @@
 						label="Type your message here"
 					/>
 				</q-toolbar-title>
-				<q-space />
 				<q-btn
 					flat
 					round
