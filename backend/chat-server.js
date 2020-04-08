@@ -94,7 +94,7 @@ module.exports = {
 				await User.findOneAndUpdate({
 					_id: user_id,
 					$push: { rooms: room._id },
-				})
+				}).catch((err) => console.log(err))
 
 				socket.join(room_name, (err) => {
 					if (err) callback(err)
