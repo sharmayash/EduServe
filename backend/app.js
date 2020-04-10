@@ -19,24 +19,25 @@ const resolvers = require("./graphql/resolvers/index")
 const app = express()
 
 // TODO: Whitelist flutter application for emulator / real device
-const whitelist = [
-  'http://localhost:8080',
-  'http://localhost:8081',
-  'http://localhost:1234',
-  'http://localhost:4000',
-  'http://192.168.1.7:8080',
-];
+// const whitelist = [
+//   'http://localhost:8080',
+//   'http://localhost:8081',
+//   'http://localhost:1234',
+//   'http://localhost:4000',
+//   'http://192.168.1.7:8080',
+// ];
 
-const corsOptions = {
-  credentials: true, // This is important.
-  origin: (origin, callback) => {
-    if (whitelist.includes(origin) || origin === undefined)
-      return callback(null, true)
-    callback(new Error('Not allowed by CORS'));
-  }
-}
+// const corsOptions = {
+//   credentials: true, // This is important.
+//   origin: (origin, callback) => {
+//     if (whitelist.includes(origin) || origin === undefined)
+//       return callback(null, true)
+//     callback(new Error('Not allowed by CORS'));
+//   }
+// }
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(cors())
 
 // SECURE HEADERS
 app.use(helmet({

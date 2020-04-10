@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class Config {
@@ -19,12 +18,10 @@ class Config {
 
   static final Link link = httpLink.concat(webSocketLink);
 
-  static ValueNotifier<GraphQLClient> initailizeClient() {
-    ValueNotifier<GraphQLClient> client = ValueNotifier(
-      GraphQLClient(
-        link: link,
-        cache: OptimisticCache(dataIdFromObject: typenameDataIdFromObject),
-      ),
+  static GraphQLClient initailizeClient() {
+    GraphQLClient client = GraphQLClient(
+      link: link,
+      cache: OptimisticCache(dataIdFromObject: typenameDataIdFromObject),
     );
     return client;
   }
