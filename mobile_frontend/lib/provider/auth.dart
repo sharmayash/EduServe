@@ -9,19 +9,23 @@ class Auth with ChangeNotifier {
 
   Future<void> loginProvider(String credentials, String password) async {
     final client = Config.initailizeClient();
-    final loginRes =
-        await client.query(CombineOps().loginClient(credentials, password));
+    final loginRes = await client.value
+        .query(CombineOps().loginClient(credentials, password));
+
     if (loginRes.hasException) {
       print(loginRes.exception.toString());
     }
+
     if (loginRes.loading) {
       print("Loading...");
     }
+
     if (loginRes.data == null) {
       print("No Data");
     }
-    //FIXME: chrome is working but ClientException: Failed to connect to http://localhost:4000/graphql: on real device
+
     final loginData = loginRes.data['loginUser'];
+
     userDetails = {
       'userId': loginData['userId'],
       'userEmail': loginData['userEmail'],
@@ -29,6 +33,7 @@ class Auth with ChangeNotifier {
       'token': loginData['token'],
       'tokenExpiration': loginData['tokenExpiration'],
     };
+
     isAuth = true;
     notifyListeners();
   }
