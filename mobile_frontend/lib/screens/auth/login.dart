@@ -18,7 +18,7 @@ class Login extends StatelessWidget {
 
       Provider.of<Auth>(context, listen: false)
           .loginProvider(_credentialC.text, _passwordC.text)
-          .then((_) => Navigator.of(context).pop())
+          .then((_) => Navigator.of(context).popUntil(ModalRoute.withName('/')))
           .then((_) =>
               print(Provider.of<Auth>(context, listen: false).userDetails));
     }
@@ -69,6 +69,7 @@ class Login extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.grey,
                   ),
+                  obscureText: true,
                   cursorColor: Colors.grey,
                   decoration: InputDecoration(
                       labelStyle: TextStyle(color: Colors.grey),

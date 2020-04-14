@@ -6,8 +6,7 @@
   "scripts": {
     "start": "node app.js",
     "client": "npm start --prefix frontend",
-    "dev": "nodemon app.js -e js,graphql",
-    "both": "concurrently \"npm run dev\" \"npm run client\""
+    "dev": "nodemon app.js -e js,graphql"
   },
   "author": "Raghav&Yash",
   "license": "ISC",
@@ -18,7 +17,6 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
-    "concurrently": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",

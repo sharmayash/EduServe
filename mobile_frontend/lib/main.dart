@@ -5,6 +5,7 @@ import './provider/auth.dart';
 
 import './screens/homepage.dart';
 import './screens/auth/login.dart';
+import './screens/auth/signup.dart';
 
 void main() {
   runApp(MyApp());
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
         home: MyHomePage(),
         routes: {
           Login.routeName: (ctx) => Login(),
+          SignUp.routeName: (ctx) => SignUp(),
         },
       ),
     );

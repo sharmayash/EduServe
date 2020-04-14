@@ -37,4 +37,36 @@ class Auth with ChangeNotifier {
     isAuth = true;
     notifyListeners();
   }
+
+  Future<void> signupProvider(
+      String name, String username, String email, String password) async {
+    final client = Config.initailizeClient();
+    final signupRes = await client.value
+        .mutate(CombineOps().signUpUser(name, username, email, password));
+
+    if (signupRes.hasException) {
+      print(signupRes.exception.toString());
+    }
+
+    if (signupRes.loading) {
+      print("Loading");
+    }
+
+    if (signupRes.data == null) {
+      print("NO DATA");
+    }
+
+    final signUpData = signupRes.data['createUser'];
+
+    userDetails = {
+      'userId': signUpData['userId'],
+      'userEmail': signUpData['userEmail'],
+      'username': signUpData['username'],
+      'token': signUpData['token'],
+      'tokenExpiration': signUpData['tokenExpiration'],
+    };
+
+    isAuth = true;
+    notifyListeners();
+  }
 }
