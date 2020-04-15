@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_frontend/screens/chat/chatScreen.dart';
 import 'package:provider/provider.dart';
 
 import './provider/auth.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             primarySwatch: Colors.orange,
-            accentColor: Colors.orange[200],
+            accentColor: Colors.grey[800],
             backgroundColor: Colors.grey[900],
             textTheme: ThemeData.dark().textTheme.copyWith(
                   headline1: TextStyle(
@@ -32,14 +33,15 @@ class MyApp extends StatelessWidget {
                     color: Colors.grey,
                     fontWeight: FontWeight.bold,
                   ),
-                  headline2: TextStyle(
-                    color: Colors.grey,
+                  headline6: TextStyle(
+                    color: Colors.grey[300],
                   ),
                 )),
         home: MyHomePage(),
         routes: {
           Login.routeName: (ctx) => Login(),
           SignUp.routeName: (ctx) => SignUp(),
+          ChatScreen.routeName: (ctx) => ChatScreen(),
         },
       ),
     );

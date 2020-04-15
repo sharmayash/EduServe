@@ -18,9 +18,8 @@ class Login extends StatelessWidget {
 
       Provider.of<Auth>(context, listen: false)
           .loginProvider(_credentialC.text, _passwordC.text)
-          .then((_) => Navigator.of(context).popUntil(ModalRoute.withName('/')))
-          .then((_) =>
-              print(Provider.of<Auth>(context, listen: false).userDetails));
+          .then(
+              (_) => Navigator.of(context).popUntil(ModalRoute.withName('/')));
     }
 
     return Scaffold(

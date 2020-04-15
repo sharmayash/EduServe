@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/auth.dart';
 
 class MyDrwr extends StatelessWidget {
   Widget buildListTile(
@@ -34,12 +37,26 @@ class MyDrwr extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            buildListTile(context, "Log In", () {
-              Navigator.of(context).pushNamed('/login');
-            }),
-            buildListTile(context, "Sign Up", () {
-              Navigator.of(context).pushNamed('/signup');
-            }),
+            Consumer<Auth>(builder: (ctx, auth, _) {
+              return auth.isAuth
+                  ? Column(
+                      children: <Widget>[
+                        buildListTile(context, "Chat", () {
+                          Navigator.of(context).pushNamed('/chat');
+                        }),
+                      ],
+                    )
+                  : Column(
+                      children: <Widget>[
+                        buildListTile(context, "Log In", () {
+                          Navigator.of(context).pushNamed('/login');
+                        }),
+                        buildListTile(context, "Sign Up", () {
+                          Navigator.of(context).pushNamed('/signup');
+                        }),
+                      ],
+                    );
+            })
           ],
         ),
       ),
