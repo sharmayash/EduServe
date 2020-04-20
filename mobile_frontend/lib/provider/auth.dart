@@ -4,8 +4,21 @@ import 'package:mobile_frontend/graphql/index.dart';
 import '../config/client.dart';
 
 class Auth with ChangeNotifier {
-  bool isAuth = false;
-  Map userDetails;
+  bool _isAuth = false;
+  Map _userDetails;
+  String _errors;
+
+  bool get isAuth {
+    return _isAuth;
+  }
+
+  Map get userDetails {
+    return _userDetails;
+  }
+
+  String get errors {
+    return _errors;
+  }
 
   Future<void> loginProvider(String credentials, String password) async {
     final client = Config.initailizeClient();
@@ -26,7 +39,7 @@ class Auth with ChangeNotifier {
 
     final loginData = loginRes.data['loginUser'];
 
-    userDetails = {
+    _userDetails = {
       'userId': loginData['userId'],
       'userEmail': loginData['userEmail'],
       'username': loginData['username'],
@@ -34,39 +47,34 @@ class Auth with ChangeNotifier {
       'tokenExpiration': loginData['tokenExpiration'],
     };
 
-    isAuth = true;
+    _isAuth = true;
     notifyListeners();
   }
 
-  Future<void> signupProvider(
-      String name, String username, String email, String password) async {
+  Future<void> signupProvider(String name, String username, String email,
+      String password, context) async {
     final client = Config.initailizeClient();
-    final signupRes = await client.value
-        .mutate(CombineOps().signUpUser(name, username, email, password));
+    await client.value.mutate(
+        CombineOps().signUpUser(name, username, email, password, context));
 
-    if (signupRes.hasException) {
-      print(signupRes.exception.toString());
-    }
+    notifyListeners();
+  }
 
-    if (signupRes.loading) {
-      print("Loading");
-    }
+  Future<void> updateSignUpErrors(error) async {
+    _errors = error.toString();
+    notifyListeners();
+  }
 
-    if (signupRes.data == null) {
-      print("NO DATA");
-    }
-
-    final signUpData = signupRes.data['createUser'];
-
-    userDetails = {
-      'userId': signUpData['userId'],
-      'userEmail': signUpData['userEmail'],
-      'username': signUpData['username'],
-      'token': signUpData['token'],
-      'tokenExpiration': signUpData['tokenExpiration'],
+  Future<void> updateUserAfterSignUp(Map data) async {
+    _userDetails = {
+      'userId': data['userId'],
+      'userEmail': data['userEmail'],
+      'username': data['username'],
+      'token': data['token'],
+      'tokenExpiration': data['tokenExpiration'],
     };
 
-    isAuth = true;
+    _isAuth = true;
     notifyListeners();
   }
 }

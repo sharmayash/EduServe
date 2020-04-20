@@ -20,8 +20,8 @@ class SignUp extends StatelessWidget {
     }
 
     Provider.of<Auth>(context, listen: false)
-        .signupProvider(
-            _nameC.text, _usernameC.text, _emailC.text, _passwordC.text)
+        .signupProvider(_nameC.text, _usernameC.text, _emailC.text,
+            _passwordC.text, context)
         .then((_) => Navigator.of(context).popUntil(ModalRoute.withName('/')));
   }
 
@@ -37,7 +37,7 @@ class SignUp extends StatelessWidget {
         controller: controller,
         keyboardType: keyboardType,
         obscureText: obscureText,
-        onSubmitted: (_) => _signupNow(ctx),
+        // onSubmitted: (_) => _signupNow(ctx),
         style: TextStyle(
           color: Colors.grey,
         ),

@@ -42,7 +42,7 @@ class MyDrwr extends StatelessWidget {
                   ? Column(
                       children: <Widget>[
                         buildListTile(context, "Chat", () {
-                          Navigator.of(context).pushNamed('/chat');
+                          Navigator.of(context).pushNamed('/chatCreation');
                         }),
                       ],
                     )

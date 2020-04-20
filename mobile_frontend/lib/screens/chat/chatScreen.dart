@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_frontend/widgets/buildTextField.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/auth.dart';
+// import '../../provider/chat.dart';
+
 import '../../widgets/MyDrwr.dart';
+import '../../widgets/buildTextField.dart';
 
 class ChatScreen extends StatelessWidget {
   static const routeName = '/chat';
@@ -24,17 +26,12 @@ class ChatScreen extends StatelessWidget {
               Expanded(
                 child: SingleChildScrollView(
                   child: Container(
-                    width: double.infinity,
-                    child: Column(
-                      // Later replace it with ListView / StreamBuilder
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Text(auth.isAuth
-                            ? 'Hey ${auth.userDetails["username"]}, chat with someone'
-                            : 'Welcome'),
-                      ],
-                    ),
-                  ),
+                      width: double.infinity,
+                      child: StreamBuilder(
+                          // stream: channel.stream,
+                          builder: (context, snapshot) {
+                        return Text(snapshot.hasData ? "${snapshot.data}" : "");
+                      })),
                 ),
               ),
               Container(
@@ -53,7 +50,11 @@ class ChatScreen extends StatelessWidget {
                       IconButton(
                           icon: Icon(Icons.send),
                           color: Colors.green[500],
-                          onPressed: () {})
+                          onPressed: () {
+                            if (_msgC.text.isNotEmpty) {
+                              // channel.sink.add(_msgC.text);
+                            }
+                          })
                     ],
                   )),
             ],
