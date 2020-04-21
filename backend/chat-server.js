@@ -9,8 +9,9 @@ module.exports = {
 		io.on("connection", (socket) => {
 			console.log("New web socket connection! " + socket.id)
 
-			socket.on("test", () => {
-				console.log(3144)
+			socket.on("test", (data) => {
+				console.log(3144, data)
+				socket.emit("fromServer", `3144 test ${data}`)
 			})
 
 			// WHEN USER LOGOUTS

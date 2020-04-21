@@ -16,6 +16,8 @@ class ChatProvider with ChangeNotifier {
   seeIfConnected() {
     socket.on('connect', (_) {
       print('connect userID :- $_userId token :- $_authToken');
+      socket.emit('test', 'data to server');
+      socket.on("fromServer", (_) => print(_));
     });
   }
 

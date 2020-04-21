@@ -31,7 +31,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             primarySwatch: Colors.orange,
-            accentColor: Colors.grey[800],
+            accentColor: Colors.grey[600],
+            cardColor: Colors.grey[800],
             backgroundColor: Colors.grey[900],
             textTheme: ThemeData.dark().textTheme.copyWith(
                   headline1: TextStyle(
