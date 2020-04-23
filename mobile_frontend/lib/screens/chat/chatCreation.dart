@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-// import '../../provider/auth.dart';
+import '../../provider/auth.dart';
 import '../../provider/chat.dart';
 
 import '../../widgets/MyDrwr.dart';
@@ -48,12 +48,14 @@ class _ChatCreationState extends State<ChatCreation>
 
   void _createRoom() {
     Provider.of<ChatProvider>(context, listen: false)
-        .createRoom(_roomNameC.text, isPrivate);
+        .createRoom(_roomNameC.text, isPrivate)
+        .then((_) => Navigator.pushNamed(context, '/chat'));
   }
 
-  void _joinRoom() {
-    // Provider.of<ChatProvider>(context, listen: false)
-    //     .joinRoom(_roomNameC.text, isPrivate);
+  void _joinRoom(String username) {
+    Provider.of<ChatProvider>(context, listen: false)
+        .joinRoom(_roomNameC.text, username)
+        .then((_) => Navigator.pushNamed(context, '/chat'));
   }
 
   @override
@@ -132,7 +134,9 @@ class _ChatCreationState extends State<ChatCreation>
                     child: Text(
                         '${currentChatMode == ModeofChat.join ? 'Join Room Now' : 'Create Room Now'}'),
                     onPressed: currentChatMode == ModeofChat.join
-                        ? _joinRoom
+                        ? () => _joinRoom(
+                            Provider.of<Auth>(context, listen: false)
+                                .userDetails['username'])
                         : _createRoom,
                     color: Theme.of(context).primaryColor,
                     splashColor: Colors.deepOrange,

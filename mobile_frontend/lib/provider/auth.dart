@@ -8,6 +8,8 @@ class Auth with ChangeNotifier {
   Map _userDetails;
   String _errors;
 
+  //Getters
+
   bool get isAuth {
     return _isAuth;
   }
@@ -19,6 +21,8 @@ class Auth with ChangeNotifier {
   String get errors {
     return _errors;
   }
+
+  // Functions
 
   Future<void> loginProvider(String credentials, String password) async {
     final client = Config.initailizeClient();

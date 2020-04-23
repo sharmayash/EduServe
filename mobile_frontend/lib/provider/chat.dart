@@ -1,17 +1,28 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class ChatProvider with ChangeNotifier {
+  // Auth Related variables
   String _authToken;
   String _userId;
   IO.Socket socket = IO.io('http://192.168.43.27:4000', <String, dynamic>{
     'transports': ['websocket'],
-    'extraHeaders': {'foo': 'bar'} // optional
   });
 
-  ChatProvider(this._authToken, this._userId);
+  ChatProvider(this._userId);
+
+  // Chat Related variables
+  String _setRoomName;
+  List<Map> _previouschats = [];
+
+  // Getters
+  get roomName {
+    return _setRoomName;
+  }
+
+  get chatMessages {
+    return _previouschats;
+  }
 
   seeIfConnected() {
     socket.on('connect', (_) {
@@ -28,6 +39,7 @@ class ChatProvider with ChangeNotifier {
       'user_id': _userId,
     }, ack: (error) {
       if (error == null) {
+        _setRoomName = _roomName;
         print("Creating Room");
       } else {
         print(error);
@@ -35,16 +47,16 @@ class ChatProvider with ChangeNotifier {
     });
   }
 
-  Future<void> joinRoom(String _roomName, bool _isPrivate) async {
-    socket.emitWithAck(
-        'join',
-        json.encode({
-          'room_name': _roomName,
-          'is_private': _isPrivate,
-          'user_id': _userId
-        }), ack: (error, data) {
+  Future<void> joinRoom(String _roomName, String _username) async {
+    socket.emitWithAck('join', {
+      'user_id': _userId,
+      'username': _username,
+      'room_name': _roomName,
+    }, ack: (error, data) {
       if (error == null) {
-        print("All Ok Do something");
+        _setRoomName = _roomName;
+        _previouschats = data;
+        print("joining room");
       } else {
         print(error);
       }
