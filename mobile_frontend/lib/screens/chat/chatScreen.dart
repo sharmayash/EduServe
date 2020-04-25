@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_frontend/provider/chat.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/auth.dart';
@@ -25,13 +26,19 @@ class ChatScreen extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: SingleChildScrollView(
-                  child: Container(
-                      width: double.infinity,
-                      child: StreamBuilder(
-                          // stream: channel.stream,
-                          builder: (context, snapshot) {
-                        return Text(snapshot.hasData ? "${snapshot.data}" : "");
-                      })),
+                  child: Container(width: double.infinity, child: Container()
+                      // StreamBuilder(
+                      //     stream:
+                      //         Provider.of<ChatProvider>(context, listen: false)
+                      //             .chatMessages,
+                      //     builder: (context, snapshot) {
+                      //       snapshot.hasData
+                      //           ? print(snapshot.data)
+                      //           : print("obj");
+                      //       return Text(
+                      //           snapshot.hasData ? "${snapshot.data}" : "");
+                      //     })
+                      ),
                 ),
               ),
               Container(
@@ -52,7 +59,9 @@ class ChatScreen extends StatelessWidget {
                           color: Colors.green[500],
                           onPressed: () {
                             if (_msgC.text.isNotEmpty) {
-                              // channel.sink.add(_msgC.text);
+                              Provider.of<ChatProvider>(context, listen: false)
+                                  .sendMsg(_msgC.text)
+                                  .then((_) => _msgC.text == '');
                             }
                           })
                     ],

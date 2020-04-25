@@ -21,8 +21,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (ctx) => Auth()),
         ChangeNotifierProxyProvider<Auth, ChatProvider>(
-          update: (ctx, auth, chats) =>
-              ChatProvider(auth.userDetails['userId']),
+          update: (ctx, auth, chats) => ChatProvider(
+              auth.userDetails['userId'], auth.userDetails['username']),
           create: null,
         )
       ],

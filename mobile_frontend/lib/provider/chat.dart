@@ -1,22 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
+import '../config/client.dart';
+
 class ChatProvider with ChangeNotifier {
   // Auth Related variables
-  String _authToken;
   String _userId;
-  IO.Socket socket = IO.io('http://192.168.43.27:4000', <String, dynamic>{
+  String _username;
+  IO.Socket socket = IO.io('http://$hostName:4000', <String, dynamic>{
     'transports': ['websocket'],
   });
 
-  ChatProvider(this._userId);
+  ChatProvider(this._userId, this._username);
 
   // Chat Related variables
   String _setRoomName;
-  List<Map> _previouschats = [];
+  List _previouschats = [];
 
   // Getters
-  get roomName {
+  String get roomName {
     return _setRoomName;
   }
 
@@ -26,7 +28,7 @@ class ChatProvider with ChangeNotifier {
 
   seeIfConnected() {
     socket.on('connect', (_) {
-      print('connect userID :- $_userId token :- $_authToken');
+      print('connect userID :- $_userId username :- $_username');
       socket.emit('test', 'data to server');
       socket.on("fromServer", (_) => print(_));
     });
@@ -42,24 +44,43 @@ class ChatProvider with ChangeNotifier {
         _setRoomName = _roomName;
         print("Creating Room");
       } else {
-        print(error);
+        print("error");
       }
     });
+    notifyListeners();
   }
 
-  Future<void> joinRoom(String _roomName, String _username) async {
+  Future<void> joinRoom(String _roomName) async {
     socket.emitWithAck('join', {
       'user_id': _userId,
       'username': _username,
       'room_name': _roomName,
-    }, ack: (error, data) {
-      if (error == null) {
+    }, ack: (receivedAck) {
+      final ackList = receivedAck as List;
+      if (ackList[0] == null) {
         _setRoomName = _roomName;
-        _previouschats = data;
+        _previouschats = ackList[1];
         print("joining room");
+        print(_previouschats);
       } else {
-        print(error);
+        print(ackList[0]);
       }
     });
+    notifyListeners();
+  }
+
+  Future<void> sendMsg(text) async {
+    final timeStamp = new DateTime.now().toIso8601String();
+    final data = {
+      'text': text,
+      'user_id': _userId,
+      'timestamp': timeStamp,
+      'room_name': _setRoomName,
+      'username': _username
+    };
+    print(data);
+    socket.emit('sendMsg', data);
+
+    notifyListeners();
   }
 }
