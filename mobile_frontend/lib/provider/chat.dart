@@ -1,21 +1,20 @@
-import 'package:flutter/cupertino.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'dart:async';
 
-import '../config/client.dart';
+import 'package:flutter/foundation.dart';
+
+import '../config/socketConfig.dart';
 
 class ChatProvider with ChangeNotifier {
   // Auth Related variables
   String _userId;
   String _username;
-  IO.Socket socket = IO.io('http://$hostName:4000', <String, dynamic>{
-    'transports': ['websocket'],
-  });
 
   ChatProvider(this._userId, this._username);
 
   // Chat Related variables
   String _setRoomName;
   List _previouschats = [];
+  List _notifications = [];
 
   // Getters
   String get roomName {
@@ -35,7 +34,7 @@ class ChatProvider with ChangeNotifier {
   }
 
   Future<void> createRoom(String _roomName, bool _isPrivate) async {
-    socket.emitWithAck('create', {
+    await socket.emitWithAck('create', {
       'room_name': _roomName,
       'is_private': _isPrivate,
       'user_id': _userId,
@@ -51,7 +50,7 @@ class ChatProvider with ChangeNotifier {
   }
 
   Future<void> joinRoom(String _roomName) async {
-    socket.emitWithAck('join', {
+    await socket.emitWithAck('join', {
       'user_id': _userId,
       'username': _username,
       'room_name': _roomName,
@@ -61,7 +60,6 @@ class ChatProvider with ChangeNotifier {
         _setRoomName = _roomName;
         _previouschats = ackList[1];
         print("joining room");
-        print(_previouschats);
       } else {
         print(ackList[0]);
       }
@@ -78,8 +76,21 @@ class ChatProvider with ChangeNotifier {
       'room_name': _setRoomName,
       'username': _username
     };
-    print(data);
-    socket.emit('sendMsg', data);
+    print("sending message");
+    // print(data);
+    await socket.emit('sendMsg', data);
+
+    notifyListeners();
+  }
+
+  Future<void> newMsgReceived(data) async {
+    _previouschats.add(data);
+
+    notifyListeners();
+  }
+
+  Future<void> newNotification(data) async {
+    _notifications.add(data);
 
     notifyListeners();
   }

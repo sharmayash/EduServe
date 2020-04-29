@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 
 import './provider/auth.dart';
@@ -26,33 +27,35 @@ class MyApp extends StatelessWidget {
           create: null,
         )
       ],
-      child: MaterialApp(
-        title: 'EduServe',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            primarySwatch: Colors.orange,
-            accentColor: Colors.grey[600],
-            cardColor: Colors.grey[800],
-            backgroundColor: Colors.grey[900],
-            textTheme: ThemeData.dark().textTheme.copyWith(
-                  headline1: TextStyle(
-                    fontSize: 20,
-                    letterSpacing: 2,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  headline6: TextStyle(
-                    color: Colors.grey[300],
-                  ),
-                )),
-        home: MyHomePage(),
-        // home: ChatCreation(),
-        routes: {
-          Login.routeName: (ctx) => Login(),
-          SignUp.routeName: (ctx) => SignUp(),
-          ChatScreen.routeName: (ctx) => ChatScreen(),
-          ChatCreation.routeName: (ctx) => ChatCreation(),
-        },
+      child: OverlaySupport(
+        child: MaterialApp(
+          title: 'EduServe',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+              primarySwatch: Colors.orange,
+              accentColor: Colors.grey[600],
+              cardColor: Colors.grey[800],
+              backgroundColor: Colors.grey[900],
+              textTheme: ThemeData.dark().textTheme.copyWith(
+                    headline1: TextStyle(
+                      fontSize: 20,
+                      letterSpacing: 2,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    headline6: TextStyle(
+                      color: Colors.grey[300],
+                    ),
+                  )),
+          home: MyHomePage(),
+          // home: ChatCreation(),
+          routes: {
+            Login.routeName: (ctx) => Login(),
+            SignUp.routeName: (ctx) => SignUp(),
+            ChatScreen.routeName: (ctx) => ChatScreen(),
+            ChatCreation.routeName: (ctx) => ChatCreation(),
+          },
+        ),
       ),
     );
   }

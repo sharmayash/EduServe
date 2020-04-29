@@ -5,12 +5,11 @@ import '../../provider/auth.dart';
 
 class Login extends StatelessWidget {
   static const routeName = '/login';
+  final _credentialC = TextEditingController();
+  final _passwordC = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final _credentialC = TextEditingController();
-    final _passwordC = TextEditingController();
-
     _loginNow() {
       if (_credentialC.text.isEmpty && _passwordC.text.isEmpty) {
         return;
