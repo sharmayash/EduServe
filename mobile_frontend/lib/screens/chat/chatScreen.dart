@@ -18,50 +18,36 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final _msgC = TextEditingController();
-  final _scrollController = ScrollController();
-  bool _isLoading = true;
+  // final _scrollController = ScrollController();
+
   // var _isInit = true;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  // }
-
-  // @override
-  // void didChangeDependencies() {
-  //   if (_isInit) {}
-  //   _isInit = false;
-  //   super.didChangeDependencies();
-  // }
-
-  void sendingMsg() {
-    if (_msgC.text.isEmpty) {
-      return;
-    }
-    Provider.of<ChatProvider>(context, listen: false)
-        .sendMsg(_msgC.text)
-        .then((_) => _msgC.clear());
-  }
-
   @override
-  Widget build(BuildContext context) {
-    socket.on(
-        'newMsg',
-        (data) => {
-              Provider.of<ChatProvider>(context, listen: false)
-                  .newMsgReceived(data)
-                  .then((_) => _scrollController
-                      .jumpTo(_scrollController.position.maxScrollExtent))
-            });
+  void initState() {
+    socket.on('newMsg', (data) {
+      Provider.of<ChatProvider>(context, listen: false).newMsgReceived(data);
+    });
 
     socket.on(
         'notification',
-        (data) => {
-              Provider.of<ChatProvider>(context, listen: false)
-                  .newNotification(data)
-                  .then((_) => showSimpleNotification(Text(data["message"]),
-                      background: Colors.orange[200])),
-            });
+        (data) => Provider.of<ChatProvider>(context, listen: false)
+            .newNotification(data)
+            .then((_) => showSimpleNotification(Text(data["message"]),
+                background: Colors.orange[200])));
+
+    super.initState();
+  }
+
+  // @override
+  // void didChangeDependencies() {
+  // if (_isInit) {}
+  // _isInit = false;
+  // super.didChangeDependencies();
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    List chatMessages = Provider.of<ChatProvider>(context).chatMessages;
 
     return Scaffold(
         appBar: AppBar(
@@ -72,28 +58,17 @@ class _ChatScreenState extends State<ChatScreen> {
         body: Column(
           children: <Widget>[
             Expanded(
-              child: Consumer<ChatProvider>(
-                builder: (ctx, chat, child) {
-                  return _isLoading
-                      ? Center(
-                          child: Text("Loading ..."),
-                        )
-                      : ListView.builder(
-                          itemCount: chat.chatMessages.length,
-                          controller: _scrollController,
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext ctx2, index) {
-                            return ListTile(
-                                subtitle: Text(chat.chatMessages[index]
-                                        ['timestamp']
-                                    .toString()),
-                                dense: true,
-                                title: Text(chat.chatMessages[index]['text']
-                                    .toString()));
-                          });
-                },
-              ),
-            ),
+                child: ListView.builder(
+                    itemCount: chatMessages.length,
+                    // controller: _scrollController,
+                    reverse: true,
+                    itemBuilder: (_, index) {
+                      return ListTile(
+                          subtitle:
+                              Text(chatMessages[index]['timestamp'].toString()),
+                          dense: true,
+                          title: Text(chatMessages[index]['text'].toString()));
+                    })),
             Container(
                 width: MediaQuery.of(context).size.width,
                 color: Theme.of(context).accentColor,
@@ -110,7 +85,14 @@ class _ChatScreenState extends State<ChatScreen> {
                     IconButton(
                         icon: Icon(Icons.send),
                         color: Colors.green[500],
-                        onPressed: () => sendingMsg())
+                        onPressed: () {
+                          if (_msgC.text.isEmpty) {
+                            return;
+                          }
+                          Provider.of<ChatProvider>(context, listen: false)
+                              .sendMsg(_msgC.text)
+                              .then((_) => _msgC.clear());
+                        })
                   ],
                 )),
           ],

@@ -17,6 +17,7 @@ class ChatProvider with ChangeNotifier {
   List _notifications = [];
 
   // Getters
+
   String get roomName {
     return _setRoomName;
   }
@@ -77,13 +78,14 @@ class ChatProvider with ChangeNotifier {
       'username': _username
     };
     print("sending message");
-    // print(data);
+
     await socket.emit('sendMsg', data);
 
     notifyListeners();
   }
 
-  Future<void> newMsgReceived(data) async {
+  void newMsgReceived(data) {
+    print(data);
     _previouschats.add(data);
 
     notifyListeners();
