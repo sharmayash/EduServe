@@ -55,17 +55,17 @@ class ChatProvider with ChangeNotifier {
       'user_id': _userId,
       'username': _username,
       'room_name': _roomName,
-    }, ack: (receivedAck) {
-      final ackList = receivedAck as List;
+    }, ack: (receivedAck) async {
+      final ackList = await receivedAck as List;
       if (ackList[0] == null) {
         _setRoomName = _roomName;
         _previouschats = ackList[1];
         print("joining room");
+        notifyListeners();
       } else {
         print(ackList[0]);
       }
     });
-    notifyListeners();
   }
 
   Future<void> sendMsg(text) async {
@@ -85,7 +85,6 @@ class ChatProvider with ChangeNotifier {
   }
 
   void newMsgReceived(data) {
-    print(data);
     _previouschats.add(data);
 
     notifyListeners();

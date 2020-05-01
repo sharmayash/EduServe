@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 import '../../provider/chat.dart';
 
 import '../../config/socketConfig.dart';
+
+import './chatMessages.dart';
 
 import '../../widgets/MyDrwr.dart';
 import '../../widgets/buildTextField.dart';
@@ -18,16 +20,11 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final _msgC = TextEditingController();
-  // final _scrollController = ScrollController();
 
   // var _isInit = true;
 
   @override
   void initState() {
-    socket.on('newMsg', (data) {
-      Provider.of<ChatProvider>(context, listen: false).newMsgReceived(data);
-    });
-
     socket.on(
         'notification',
         (data) => Provider.of<ChatProvider>(context, listen: false)
@@ -47,8 +44,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List chatMessages = Provider.of<ChatProvider>(context).chatMessages;
-
     return Scaffold(
         appBar: AppBar(
           title: Text("EduServe Chat"),
@@ -58,17 +53,8 @@ class _ChatScreenState extends State<ChatScreen> {
         body: Column(
           children: <Widget>[
             Expanded(
-                child: ListView.builder(
-                    itemCount: chatMessages.length,
-                    // controller: _scrollController,
-                    reverse: true,
-                    itemBuilder: (_, index) {
-                      return ListTile(
-                          subtitle:
-                              Text(chatMessages[index]['timestamp'].toString()),
-                          dense: true,
-                          title: Text(chatMessages[index]['text'].toString()));
-                    })),
+              child: ChatMessages(),
+            ),
             Container(
                 width: MediaQuery.of(context).size.width,
                 color: Theme.of(context).accentColor,
