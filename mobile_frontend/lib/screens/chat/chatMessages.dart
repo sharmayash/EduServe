@@ -1,6 +1,7 @@
+import 'package:intl/intl.dart';
+import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 import '../../provider/chat.dart';
 import '../../config/socketConfig.dart';
@@ -12,29 +13,15 @@ class ChatMessages extends StatefulWidget {
 
 class _ChatMessagesState extends State<ChatMessages> {
   final _scrollController = ScrollController();
-  bool _isLoading = false;
 
   @override
   void initState() {
     socket.on('newMsg', (data) {
       Provider.of<ChatProvider>(context, listen: false).newMsgReceived(data);
-      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      _scrollController.jumpTo(_scrollController.position.extentInside);
     });
 
     super.initState();
-  }
-
-  Future _loadMoreChats() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    // TODO: Increase chatMessages limit / here just load more data
-    // await
-
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   @override
@@ -43,23 +30,61 @@ class _ChatMessagesState extends State<ChatMessages> {
       builder: (ctx, chat, _) {
         return chat.chatMessages.isEmpty
             ? Center(child: Text("No chats Yet !!! Start a New One."))
-            : LazyLoadScrollView(
-                onEndOfPage: _loadMoreChats,
-                isLoading: _isLoading,
-                scrollOffset: 100,
-                child: ListView.builder(
-                    itemCount: chat.chatMessages.length,
-                    reverse: true,
-                    controller: _scrollController,
-                    itemBuilder: (_, index) {
-                      return ListTile(
-                          subtitle: Text(
-                              chat.chatMessages[index]['timestamp'].toString()),
-                          dense: true,
-                          title: Text(
-                              chat.chatMessages[index]['text'].toString()));
-                    }),
-              );
+            : ListView.builder(
+                itemCount: chat.chatMessages.length,
+                controller: _scrollController,
+                itemBuilder: (_, index) {
+                  if (chat.chatMessages[index]['sender']['username'] ==
+                      chat.username) {
+                    return Bubble(
+                        elevation: 10.0,
+                        color: Colors.lightGreen[300],
+                        padding: BubbleEdges.all(15),
+                        alignment: Alignment.topRight,
+                        shadowColor: Colors.lightGreen[200],
+                        radius: Radius.circular(10.0),
+                        margin: BubbleEdges.only(
+                            top: 20,
+                            left: MediaQuery.of(context).size.width * 0.4,
+                            right: MediaQuery.of(context).size.width * 0.05),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            Text(chat.chatMessages[index]['text']),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(DateFormat('⏲ HH:mm  📆 MMM, d').format(
+                                DateTime.parse(
+                                    chat.chatMessages[index]['timestamp'])))
+                          ],
+                        ));
+                  } else {
+                    return Bubble(
+                        elevation: 10.0,
+                        color: Colors.lightBlue,
+                        padding: BubbleEdges.all(15),
+                        alignment: Alignment.topLeft,
+                        shadowColor: Colors.lightBlue[300],
+                        radius: Radius.circular(10.0),
+                        margin: BubbleEdges.only(
+                            top: 20,
+                            left: MediaQuery.of(context).size.width * 0.05,
+                            right: MediaQuery.of(context).size.width * 0.4),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(chat.chatMessages[index]['text']),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(DateFormat('⏲ HH:mm  📆 MMM, d').format(
+                                DateTime.parse(
+                                    chat.chatMessages[index]['timestamp'])))
+                          ],
+                        ));
+                  }
+                });
       },
     );
   }

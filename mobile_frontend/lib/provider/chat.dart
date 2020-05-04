@@ -22,6 +22,14 @@ class ChatProvider with ChangeNotifier {
     return _setRoomName;
   }
 
+  String get username {
+    return _username;
+  }
+
+  String get userId {
+    return _userId;
+  }
+
   get chatMessages {
     return _previouschats;
   }
