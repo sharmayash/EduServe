@@ -22,8 +22,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (ctx) => Auth()),
         ChangeNotifierProxyProvider<Auth, ChatProvider>(
-          update: (ctx, auth, chats) => ChatProvider(
-              auth.userDetails['userId'], auth.userDetails['username']),
+          update: (ctx, auth, chats) =>
+              ChatProvider(auth.userId, auth.username),
           create: null,
         )
       ],
@@ -48,7 +48,6 @@ class MyApp extends StatelessWidget {
                     ),
                   )),
           home: MyHomePage(),
-          // home: ChatCreation(),
           routes: {
             Login.routeName: (ctx) => Login(),
             SignUp.routeName: (ctx) => SignUp(),

@@ -44,6 +44,10 @@ class MyDrwr extends StatelessWidget {
                         buildListTile(context, "Chat", () {
                           Navigator.of(context).pushNamed('/chatCreation');
                         }),
+                        buildListTile(context, "Log Out", () {
+                          auth.logout().then(
+                              (_) => Navigator.of(context).pushNamed('/'));
+                        }),
                       ],
                     )
                   : Column(
