@@ -44,7 +44,8 @@ class _ChatMessagesState extends State<ChatMessages> {
                         shadowColor: Colors.lightGreen[200],
                         radius: Radius.circular(10.0),
                         margin: BubbleEdges.only(
-                            top: 20,
+                            top: 10,
+                            bottom: 10,
                             left: MediaQuery.of(context).size.width * 0.4,
                             right: MediaQuery.of(context).size.width * 0.05),
                         child: Column(
@@ -60,29 +61,45 @@ class _ChatMessagesState extends State<ChatMessages> {
                           ],
                         ));
                   } else {
-                    return Bubble(
-                        elevation: 10.0,
-                        color: Colors.lightBlue,
-                        padding: BubbleEdges.all(15),
-                        alignment: Alignment.topLeft,
-                        shadowColor: Colors.lightBlue[300],
-                        radius: Radius.circular(10.0),
-                        margin: BubbleEdges.only(
-                            top: 20,
-                            left: MediaQuery.of(context).size.width * 0.05,
-                            right: MediaQuery.of(context).size.width * 0.4),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(chat.chatMessages[index]['text']),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(DateFormat('⏲ HH:mm  📆 MMM, d').format(
-                                DateTime.parse(
-                                    chat.chatMessages[index]['timestamp'])))
-                          ],
-                        ));
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.fromLTRB(
+                              MediaQuery.of(context).size.width * 0.07,
+                              20,
+                              0,
+                              0),
+                          child: Text(
+                            chat.chatMessages[index]['sender']['username'],
+                          ),
+                        ),
+                        Bubble(
+                            elevation: 10.0,
+                            color: Colors.lightBlue,
+                            padding: BubbleEdges.all(15),
+                            alignment: Alignment.topLeft,
+                            shadowColor: Colors.lightBlue[300],
+                            radius: Radius.circular(10.0),
+                            margin: BubbleEdges.only(
+                                top: 10,
+                                bottom: 10,
+                                left: MediaQuery.of(context).size.width * 0.05,
+                                right: MediaQuery.of(context).size.width * 0.4),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(chat.chatMessages[index]['text']),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(DateFormat('⏲ HH:mm  📆 MMM, d').format(
+                                    DateTime.parse(
+                                        chat.chatMessages[index]['timestamp'])))
+                              ],
+                            )),
+                      ],
+                    );
                   }
                 });
       },

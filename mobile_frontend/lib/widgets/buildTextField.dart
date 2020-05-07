@@ -27,11 +27,11 @@ class _BuildTextFieldState extends State<BuildTextField> {
         obscureText: widget.obscureText,
         // onSubmitted: (_) => _onSubmitFunc,
         style: TextStyle(
-          color: Colors.grey,
+          color: Colors.white,
         ),
         cursorColor: Colors.grey,
         decoration: InputDecoration(
-            labelStyle: TextStyle(color: Colors.grey),
+            labelStyle: TextStyle(color: Colors.white),
             border: InputBorder.none,
             labelText: widget.label),
       ),

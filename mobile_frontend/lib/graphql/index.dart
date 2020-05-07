@@ -29,12 +29,21 @@ class CombineOps {
           'password': password
         },
         onError: (error) {
+          Provider.of<Auth>(context, listen: false).updateSignUpErrors(error);
           print('$error lineeeeeeeee');
         },
         onCompleted: (data) {
           if (data != null) {
+            var createUser = data.data['createUser'];
+            Map signUpData = {
+              'token': createUser['token'],
+              'userId': createUser['userId'],
+              'username': createUser['username'],
+              'userEmail': createUser['userEmail'],
+              'tokenExpiration': createUser['tokenExpiration']
+            };
             Provider.of<Auth>(context, listen: false)
-                .updateUserAfterSignUp(data.data['createUser']);
+                .updateUserAfterSignUp(signUpData);
           }
         });
     return _options;
